@@ -1,0 +1,22 @@
+{
+  "name": "mern-blog",
+  "version": "0.0.0",
+  "private": true,
+  "engines": {
+    "node": "16.13.1"
+  },
+  "scripts": {
+    "start": "node ./bin/www",
+    "devstart": "nodemon ./bin/www",
+    "serverstart": "DEBUG=MERN-blog:* npm run devstart"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "morgan": "~1.9.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
