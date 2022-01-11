@@ -5,6 +5,7 @@ const User = require("../models/user");
 const { body, validationResult } = require("express-validator");
 
 exports.postSignUp = [
+  // validate sign up form
   body("username", "Username cannot be empty.")
     .trim()
     .isLength({ min: 1 })
@@ -23,14 +24,30 @@ exports.postSignUp = [
     .trim()
     .isLength({ min: 5 })
     .escape(),
-  body("confirmPassword", "Password must be at least 5 characters long.")
-    .trim()
-    .isLength({ min: 5 })
-    .escape()
-    .custom(async (req, res) => {
-      //   if () {
-      //   }
-    }),
+  body(
+    "confirmPassword",
+    "Password must be at least 5 characters long."
+  ).custom((value, { req }) => {
+    if (value !== req.body.password) {
+      return next("Passwords must match!");
+    }
+    return true;
+  }),
+
+  // handle login
+  async (req, res, next) => {
+    passport.authenticate("sign-up", { session: false }, (err, user, info) => {
+      const { username } = req.body;
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.json({ username, errors: errors.array() });
+      }
+      if (err) {
+        return next(err);
+      }
+      res.json({ user: req.user, message: "Signed up successfully!" });
+    })(req, res, next);
+  },
 ];
 
 exports.getLogin = async (req, res, next) => {
