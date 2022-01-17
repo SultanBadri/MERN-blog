@@ -64,7 +64,7 @@ exports.getAllPosts = async (req, res, next) => {
   }
 };
 
-exports.publishPosts = async (req, res, next) => {
+exports.publishPost = async (req, res, next) => {
   try {
     const post = await Post.findByIdAndUpdate(req.params._id, {
       published: true,
@@ -81,7 +81,7 @@ exports.publishPosts = async (req, res, next) => {
   }
 };
 
-exports.unpublishPosts = async (req, res, next) => {
+exports.unpublishPost = async (req, res, next) => {
   try {
     const post = await Post.findByIdAndUpdate(req.params._id, {
       published: false,
