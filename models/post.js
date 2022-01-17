@@ -8,7 +8,6 @@ const PostSchema = new Schema({
   date: { type: Date, default: Date.now },
   published: { type: Boolean, default: false },
   imageUrl: { type: String, required: true },
-  comments: { type: Array, default: [] },
   likes: { type: Array, default: [] },
 });
 
