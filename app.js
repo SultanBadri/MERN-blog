@@ -5,6 +5,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const User = require("./models/user");
 
 const usersRouter = require("./routes/users");
 const postsRouter = require("./routes/posts");

@@ -30,6 +30,40 @@ exports.createPost = [
   },
 ];
 
+exports.getOnePost = async (req, res, next) => {
+  try {
+    const post = await Post.findById(req.params._id);
+
+    if (!post) {
+      return res.status(404).json({
+        errors: [{ message: `Post ${req.params._id} was not found` }],
+      });
+    }
+
+    res.json(post);
+  } catch (err) {
+    return next(err);
+    res.status(500).send("Server error");
+  }
+};
+
+exports.getAllPosts = async (req, res, next) => {
+  try {
+    const posts = await Post.find()
+      .sort([["date", "descending"]])
+      .populate("author");
+
+    if (!posts) {
+      return res.status(404).json({ errors: [{ message: `Posts not found` }] });
+    }
+
+    res.json(posts);
+  } catch (err) {
+    return next(err);
+    res.status(500).send("Server error");
+  }
+};
+
 exports.publishPosts = async (req, res, next) => {
   try {
     const post = await Post.findByIdAndUpdate(req.params._id, {
@@ -94,40 +128,6 @@ exports.deletePost = async (req, res, next) => {
     }
 
     res.json({ message: `Post ${req.params._id} was successfully deleted.` });
-  } catch (err) {
-    return next(err);
-    res.status(500).send("Server error");
-  }
-};
-
-exports.getOnePost = async (req, res, next) => {
-  try {
-    const post = await Post.findById(req.params._id);
-
-    if (!post) {
-      return res.status(404).json({
-        errors: [{ message: `Post ${req.params._id} was not found` }],
-      });
-    }
-
-    res.json(post);
-  } catch (err) {
-    return next(err);
-    res.status(500).send("Server error");
-  }
-};
-
-exports.getAllPosts = async (req, res, next) => {
-  try {
-    const posts = await Post.find()
-      .sort([["date", "descending"]])
-      .populate("author");
-
-    if (!posts) {
-      return res.status(404).json({ errors: [{ message: `Posts not found` }] });
-    }
-
-    res.json(posts);
   } catch (err) {
     return next(err);
     res.status(500).send("Server error");

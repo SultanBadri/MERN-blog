@@ -93,3 +93,8 @@ exports.getLogin = async (req, res, next) => {
     }
   )(req, res, next);
 };
+
+exports.getLogout = (req, res) => {
+  req.logout();
+  res.redirect("/");
+};
