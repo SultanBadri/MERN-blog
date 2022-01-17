@@ -66,6 +66,19 @@ exports.unpublishPosts = async (req, res, next) => {
 
 exports.updatePost = async (req, res, next) => {
   try {
+    const { title, content, date, imageUrl } = req.body;
+    const post = await Post.findByIdAndUpdate(req.params._id, {
+      title,
+      content,
+      date,
+      imageUrl,
+    });
+
+    if (!post) {
+      return res.status(404).json({ errors: [{ message: "Post not found" }] });
+    }
+
+    res.json({ message: `Updated post ${req.params._id} successfully!` });
   } catch (err) {
     return next(err);
     res.status(500).send("Server error");
