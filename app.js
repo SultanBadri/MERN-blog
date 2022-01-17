@@ -23,8 +23,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-// app.use("/api/users", usersRouter);
-// app.use("/api/posts", postsRouter);
-// app.use("/api/posts/:post_id/comments", commentsRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/posts", postsRouter);
+app.use("/api/posts/:post_id/comments", commentsRouter);
 
 module.exports = app;
