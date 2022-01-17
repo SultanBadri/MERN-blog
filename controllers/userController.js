@@ -1,3 +1,4 @@
+require("dotenv").config();
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
@@ -42,28 +43,27 @@ exports.postSignUp = [
       return res.json({ username, errors: errors.array() });
     }
     try {
-      bcrypt.hash(password, 10, (err, hashedPassword) => {
-        if (err) return next(err);
-        User.create({ username, password: hashedPassword }, (err, user) => {
-          const userObject = { _id: user._id, username: user.username };
-          if (err) return next(err);
-          jwt.sign(
-            userObject,
-            process.env.SECRET,
-            { expiresIn: "30m" },
-            (err, token) => {
-              if (err) return next(err);
-              return res.json({
-                token,
-                user: userObject,
-                message: "Signed up successfully.",
-              });
-            }
-          );
-        });
+      bcrypt.hash(password, 10, async (err, hashedPassword) => {
+        const user = await new User({ username, password: hashedPassword });
+        const userObject = { _id: user._id, username: user.username };
+
+        jwt.sign(
+          userObject,
+          process.env.SECRET,
+          { expiresIn: "30m" },
+          (err, token) => {
+            if (err) return next(err);
+            res.json({
+              token,
+              user: userObject,
+              message: "Signed up successfully.",
+            });
+          }
+        );
       });
     } catch (err) {
       return next(err);
+      res.status(500).send("Server error");
     }
   },
 ];
@@ -83,10 +83,11 @@ exports.getLogin = async (req, res, next) => {
           const token = jwt.sign({ user: body }, process.env.SECRET, {
             expiresIn: "30m",
           });
-          return res.json({ user, token });
+          res.json({ user, token });
         });
       } catch (err) {
         return next(err);
+        res.status(500).send("Server error");
       }
     }
   )(req, res, next);

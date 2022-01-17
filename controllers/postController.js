@@ -24,25 +24,52 @@ exports.createPost = [
     }
     try {
       const { title, content, published, imageUrl } = req.body;
-      const newPost = {
+      const post = await new Post({
         title,
         content,
         author: req.user._id,
         date: Date.now(),
         published,
         imageUrl,
-      };
-      Post.create(newPost, (err, post) => {
-        if (err) return next(err);
-        post.populate("author", (err, newPost) => {
-          if (err) return next(err);
-          res.json(newPost);
-        });
       });
+      res.json(post);
     } catch (err) {
       return next(err);
+      res.status(500).send("Server error");
     }
   },
 ];
 
-exports.publishPosts = async (req, res, next) => {};
+exports.publishPosts = async (req, res, next) => {
+  try {
+    const post = await Post.findByIdAndUpdate(req.params._id, {
+      published: true,
+    });
+
+    if (!post) {
+      return res.status(404).json({ errors: [{ msg: "Post not found" }] });
+    }
+
+    res.json(post);
+  } catch (err) {
+    return next(err);
+    res.status(500).send("Server error");
+  }
+};
+
+exports.unpublishPosts = async (req, res, next) => {
+  try {
+    const post = await Post.findByIdAndUpdate(req.params._id, {
+      published: false,
+    });
+
+    if (!post) {
+      return res.status(404).json({ errors: [{ msg: "Post not found" }] });
+    }
+
+    res.json(post);
+  } catch (err) {
+    return next(err);
+    res.status(500).send("Server error");
+  }
+};
