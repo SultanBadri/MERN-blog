@@ -28,11 +28,11 @@ exports.createComment = [
 
 exports.getOneComment = async (req, res, next) => {
   try {
-    const comment = await Comment.findById(req.params.commentId);
+    const comment = await Comment.findById(req.params.comment_id);
 
     if (!comment) {
       return res.status(404).json({
-        errors: [{ message: `Comment ${req.params.commentId} was not found` }],
+        errors: [{ message: `Comment ${req.params.comment_id} was not found` }],
       });
     }
 
@@ -47,7 +47,7 @@ exports.getAllComments = async (req, res, next) => {
   try {
     const allComments = await Comment.find().sort([["date", "descending"]]);
     const commentsUnderPost = allComments.filter(
-      (comment) => comment.postId === req.params.postId
+      (comment) => comment.postId === req.params.post_id
     );
 
     if (!commentsUnderPost) {
@@ -66,7 +66,7 @@ exports.getAllComments = async (req, res, next) => {
 exports.updateComment = async (req, res, next) => {
   try {
     const { user, text } = req.body;
-    const comment = await Comment.findByIdAndUpdate(req.params.commentId, {
+    const comment = await Comment.findByIdAndUpdate(req.params.comment_id, {
       title,
       text,
       date,
@@ -79,7 +79,7 @@ exports.updateComment = async (req, res, next) => {
     }
 
     res.json({
-      message: `Updated comment ${req.params.commentId} successfully!`,
+      message: `Updated comment ${req.params.comment_id} successfully!`,
     });
   } catch (err) {
     return next(err);
@@ -89,7 +89,7 @@ exports.updateComment = async (req, res, next) => {
 
 exports.deleteComment = async (req, res, next) => {
   try {
-    const comment = await Comment.findByIdAndDelete(req.params.commentId);
+    const comment = await Comment.findByIdAndDelete(req.params.comment_id);
 
     if (!comment) {
       return res
@@ -98,7 +98,7 @@ exports.deleteComment = async (req, res, next) => {
     }
 
     res.json({
-      message: `Comment ${req.params.commentId} was successfully deleted.`,
+      message: `Comment ${req.params.comment_id} was successfully deleted.`,
     });
   } catch (err) {
     return next(err);

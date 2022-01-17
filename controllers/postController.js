@@ -32,11 +32,11 @@ exports.createPost = [
 
 exports.getOnePost = async (req, res, next) => {
   try {
-    const post = await Post.findById(req.params._id);
+    const post = await Post.findById(req.params.post_id);
 
     if (!post) {
       return res.status(404).json({
-        errors: [{ message: `Post ${req.params._id} was not found` }],
+        errors: [{ message: `Post ${req.params.post_id} was not found` }],
       });
     }
 
@@ -66,7 +66,7 @@ exports.getAllPosts = async (req, res, next) => {
 
 exports.publishPost = async (req, res, next) => {
   try {
-    const post = await Post.findByIdAndUpdate(req.params._id, {
+    const post = await Post.findByIdAndUpdate(req.params.post_id, {
       published: true,
     });
 
@@ -83,7 +83,7 @@ exports.publishPost = async (req, res, next) => {
 
 exports.unpublishPost = async (req, res, next) => {
   try {
-    const post = await Post.findByIdAndUpdate(req.params._id, {
+    const post = await Post.findByIdAndUpdate(req.params.post_id, {
       published: false,
     });
 
@@ -101,7 +101,7 @@ exports.unpublishPost = async (req, res, next) => {
 exports.updatePost = async (req, res, next) => {
   try {
     const { title, content, date, imageUrl } = req.body;
-    const post = await Post.findByIdAndUpdate(req.params._id, {
+    const post = await Post.findByIdAndUpdate(req.params.post_id, {
       title,
       content,
       date,
@@ -112,7 +112,7 @@ exports.updatePost = async (req, res, next) => {
       return res.status(404).json({ errors: [{ message: "Post not found" }] });
     }
 
-    res.json({ message: `Updated post ${req.params._id} successfully!` });
+    res.json({ message: `Updated post ${req.params.post_id} successfully!` });
   } catch (err) {
     return next(err);
     res.status(500).send("Server error");
@@ -121,13 +121,15 @@ exports.updatePost = async (req, res, next) => {
 
 exports.deletePost = async (req, res, next) => {
   try {
-    const post = await Post.findByIdAndDelete(req.params._id);
+    const post = await Post.findByIdAndDelete(req.params.post_id);
 
     if (!post) {
       return res.status(404).json({ errors: [{ message: "Post not found" }] });
     }
 
-    res.json({ message: `Post ${req.params._id} was successfully deleted.` });
+    res.json({
+      message: `Post ${req.params.post_id} was successfully deleted.`,
+    });
   } catch (err) {
     return next(err);
     res.status(500).send("Server error");

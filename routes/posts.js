@@ -18,28 +18,28 @@ router.post(
 
 // POST publish post
 router.post(
-  "/:id/publish",
+  "/:post_id/publish",
   passport.authenticate("jwt", { session: false }),
   postController.publishPost
 );
 
 // POST unpublish post
 router.post(
-  "/:id/unpublish",
+  "/:post_id/unpublish",
   passport.authenticate("jwt", { session: false }),
   postController.unpublishPost
 );
 
 // PUT update post
 router.put(
-  "/:id/update",
+  "/:post_id/update",
   passport.authenticate("jwt", { session: false }),
   postController.updatePost
 );
 
 // DELETE delete post
 router.delete(
-  "/:id/delete",
+  "/:post_id/delete",
   passport.authenticate("jwt", { session: false }),
   postController.deletePost
 );
