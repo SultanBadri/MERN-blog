@@ -42,6 +42,7 @@ exports.postSignUp = [
     if (!errors.isEmpty()) {
       return res.json({ username, errors: errors.array() });
     }
+
     try {
       bcrypt.hash(password, 10, async (err, hashedPassword) => {
         const user = await new User({ username, password: hashedPassword });
