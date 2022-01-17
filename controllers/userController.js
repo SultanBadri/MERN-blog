@@ -41,25 +41,30 @@ exports.postSignUp = [
     if (!errors.isEmpty()) {
       return res.json({ username, errors: errors.array() });
     }
-    bcrypt.hash(password, 10, async (err, hashedPassword) => {
-      if (err) return next(err);
-      User.create({ username, password: hashedPassword }, (err, user) => {
+    try {
+      bcrypt.hash(password, 10, (err, hashedPassword) => {
         if (err) return next(err);
-        jwt.sign(
-          { _id: user._id, username: user.username },
-          process.env.SECRET,
-          { expiresIn: "30m" },
-          (err, token) => {
-            if (err) return next(err);
-            return res.json({
-              token,
-              user: { _id: user._id, username: user.username },
-              message: "Signed up successfully.",
-            });
-          }
-        );
+        User.create({ username, password: hashedPassword }, (err, user) => {
+          const userObject = { _id: user._id, username: user.username };
+          if (err) return next(err);
+          jwt.sign(
+            userObject,
+            process.env.SECRET,
+            { expiresIn: "30m" },
+            (err, token) => {
+              if (err) return next(err);
+              return res.json({
+                token,
+                user: userObject,
+                message: "Signed up successfully.",
+              });
+            }
+          );
+        });
       });
-    });
+    } catch (err) {
+      return next(err);
+    }
   },
 ];
 
@@ -73,9 +78,7 @@ exports.getLogin = async (req, res, next) => {
           return next(new Error("An error has occurred."));
         }
         req.login(user, { session: false }, (err) => {
-          if (err) {
-            res.send(err);
-          }
+          if (err) return next(err);
           const body = { _id: user._id, username: user.username };
           const token = jwt.sign({ user: body }, process.env.SECRET, {
             expiresIn: "30m",
