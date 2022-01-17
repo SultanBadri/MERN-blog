@@ -123,7 +123,7 @@ exports.getAllPosts = async (req, res, next) => {
       .sort([["date", "descending"]])
       .populate("author");
 
-    if (!post) {
+    if (!posts) {
       return res.status(404).json({ errors: [{ message: `Posts not found` }] });
     }
 
