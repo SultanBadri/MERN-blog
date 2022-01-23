@@ -8,7 +8,10 @@
   "scripts": {
     "start": "node ./bin/www",
     "devstart": "nodemon ./bin/www",
-    "serverstart": "DEBUG=MERN-blog:* npm run devstart"
+    "serverstart": "DEBUG=MERN-blog:* npm run devstart",
+    "install-client": "cd client && npm install",
+    "build": "cd client && npm run dev",
+    "heroku-postbuild": "npm run install-client && npm run build"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
