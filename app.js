@@ -5,7 +5,6 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const cors = require("cors");
 const User = require("./models/user");
 
 const indexRouter = require("./routes/index");
@@ -24,11 +23,10 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 app.get("/api", (req, res) => {
   res.json({
-    message: "This is the api endpoint",
+    users: ["first", "second", "third"],
   });
 });
 
-app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
