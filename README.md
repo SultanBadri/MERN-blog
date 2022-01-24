@@ -1,3 +1,3 @@
 # MERN-blog
 
-MERN-blog app with Next.js, TypeScript, and Tailwind.
+MERN-blog app with React.js, TypeScript, and Tailwind.
