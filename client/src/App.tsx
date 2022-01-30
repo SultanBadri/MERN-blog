@@ -14,7 +14,7 @@ function App() {
         console.log(backendData);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [backendData]);
 
   return (
     <div className="App">
