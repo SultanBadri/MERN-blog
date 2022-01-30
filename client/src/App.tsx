@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
-import logo from "./logo.svg";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
 import "./App.css";
 import axios from "axios";
 import Nav from "./components/Nav";
@@ -20,7 +22,14 @@ function App() {
 
   return (
     <>
-      <Nav />
+      <HashRouter>
+        <Nav />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+      </HashRouter>
     </>
   );
 }
