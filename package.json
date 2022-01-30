@@ -9,9 +9,7 @@
     "start": "node ./bin/www",
     "devstart": "nodemon ./bin/www",
     "serverstart": "DEBUG=MERN-blog:* npm run devstart",
-    "install-client": "cd client && npm install",
-    "build": "cd client && npm run start",
-    "heroku-postbuild": "npm run install-client && npm run build"
+    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
