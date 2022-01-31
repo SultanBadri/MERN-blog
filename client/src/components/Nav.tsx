@@ -3,7 +3,7 @@ import { Link, Route } from "react-router-dom";
 
 function Nav() {
   return (
-    <div className="bg-red-500 p-4 flex justify-between items-center">
+    <div className="bg-purple-500 p-4 flex justify-between items-center">
       <Link to="/">
         <h2 className="text-2xl">My Blog</h2>
       </Link>
