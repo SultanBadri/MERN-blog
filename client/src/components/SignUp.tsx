@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 function SignUp() {
   return (
     <div className="bg-black-500 w-1/2 mt-24 absolute left-1/2 -translate-x-1/2">
-      <div className="p-10 bg-gray-700 text-white">
-        <h1 className="text-2xl">Sign Up</h1>
+      <div className="border-2 p-10 shadow-xl rounded-md">
+        <h1 className="text-purple-600 text-4xl pb-4">Sign Up</h1>
         <p>
           Already have an account?
           <Link to="/login" className="text-blue-500 hover:underline">
