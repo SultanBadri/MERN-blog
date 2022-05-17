@@ -15,7 +15,7 @@ exports.postSignUp = [
       try {
         const userExists = await User.findOne({ username });
         if (userExists) {
-          throw new Error("Username already in use");
+          throw new Error("Username already exists");
         }
       } catch (err) {
         throw new Error(err);
@@ -51,7 +51,7 @@ exports.postSignUp = [
         jwt.sign(
           userObject,
           process.env.SECRET,
-          { expiresIn: "30m" },
+          { expiresIn: "60m" },
           (err, token) => {
             if (err) return next(err);
             res.json({
