@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface IProps {
   setUser: React.Dispatch<React.SetStateAction<null | undefined>>;
 }
 
 function SignUp({ setUser }: IProps) {
+  const navigate = useNavigate();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -25,6 +26,7 @@ function SignUp({ setUser }: IProps) {
       })
       .then((res) => {
         setUser(res.data.user);
+        navigate("/login");
       })
       .catch((err) => console.log(err));
   };
