@@ -10,17 +10,7 @@ exports.postSignUp = [
   body("username", "Username cannot be empty.")
     .trim()
     .isLength({ min: 1 })
-    .escape()
-    .custom(async (username) => {
-      try {
-        const userExists = await User.findOne({ username });
-        if (userExists) {
-          throw new Error("Username already exists");
-        }
-      } catch (err) {
-        throw new Error(err);
-      }
-    }),
+    .escape(),
   body("password", "Password must be at least 5 characters long.")
     .trim()
     .isLength({ min: 5 })
@@ -28,7 +18,7 @@ exports.postSignUp = [
   body(
     "confirmPassword",
     "Password must be at least 5 characters long."
-  ).custom((value, { req }) => {
+  ).custom(async (value, { req }) => {
     if (value !== req.body.password) {
       return next("Passwords must match!");
     }
@@ -36,62 +26,62 @@ exports.postSignUp = [
   }),
 
   // handle signup
-  async (req, res, next) => {
-    const { username } = req.body;
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.json({ username, errors: errors.array() });
-    }
+  (req, res, next) => {
+    const { username, password } = req.body;
+    User.findOne({ username }, (err, user) => {
+      if (user) return res.json({ message: "Username already exists." });
 
-    try {
-      bcrypt.hash(password, 10, async (err, hashedPassword) => {
-        const user = await new User({ username, password: hashedPassword });
-        const userObject = { _id: user._id, username: user.username };
-
-        jwt.sign(
-          userObject,
-          process.env.SECRET,
-          { expiresIn: "60m" },
-          (err, token) => {
-            if (err) return next(err);
-            res.json({
-              token,
-              user: userObject,
-              message: "Signed up successfully.",
-            });
-          }
-        );
-      });
-    } catch (err) {
-      return next(err);
-      res.status(500).send("Server error");
-    }
-  },
-];
-
-exports.getLogin = async (req, res, next) => {
-  passport.authenticate(
-    "local",
-    { session: false },
-    async (err, user, info) => {
       try {
-        if (err || !user) {
-          return next(new Error("An error has occurred."));
-        }
-        req.login(user, { session: false }, (err) => {
-          if (err) return next(err);
-          const body = { _id: user._id, username: user.username };
-          const token = jwt.sign({ user: body }, process.env.SECRET, {
-            expiresIn: "30m",
+        bcrypt.hash(password, 10, (err, hashedPassword) => {
+          if (err) console.log(err);
+          User.create({ username, password: hashedPassword }, (err, user) => {
+            const userObject = { _id: user._id, username: user.username };
+            if (err) console.log(err);
+            jwt.sign(
+              userObject,
+              process.env.SECRET,
+              { expiresIn: "60m" },
+              (err, token) => {
+                if (err) console.log(err);
+                res.status(200).json({
+                  token,
+                  user: userObject,
+                  message: "Successfully signed up.",
+                });
+              }
+            );
           });
-          res.json({ user, token });
         });
       } catch (err) {
         return next(err);
         res.status(500).send("Server error");
       }
+    });
+  },
+];
+
+exports.getLogin = (req, res) => {
+  passport.authenticate("local", { session: false }, (err, user) => {
+    if (err || !user) {
+      return res.status(401).json({
+        message: "Incorrect Username or Password",
+        user,
+      });
     }
-  )(req, res, next);
+
+    jwt.sign(
+      { _id: user._id, username: user.username },
+      process.env.SECRET,
+      { expiresIn: "60m" },
+      (err, token) => {
+        if (err) return res.status(400).json(err);
+        res.json({
+          token: token,
+          user: { _id: user._id, username: user.username },
+        });
+      }
+    );
+  })(req, res);
 };
 
 exports.getLogout = (req, res) => {
@@ -101,7 +91,7 @@ exports.getLogout = (req, res) => {
 
 exports.getUser = async (req, res, user) => {
   await User.findOne({ _id: req.params._id }, (err, user) => {
-    if (err) return res.json(err);
+    if (err) return next(err);
     res.json(user);
   });
 };
