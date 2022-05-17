@@ -2,11 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-interface IProps {
-  setUser: React.Dispatch<React.SetStateAction<null | undefined>>;
-}
-
-function SignUp({ setUser }: IProps) {
+function SignUp() {
   const navigate = useNavigate();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -24,8 +20,7 @@ function SignUp({ setUser }: IProps) {
         password,
         confirmPassword,
       })
-      .then((res) => {
-        setUser(res.data.user);
+      .then(() => {
         navigate("/login");
       })
       .catch((err) => console.log(err));
@@ -43,7 +38,7 @@ function SignUp({ setUser }: IProps) {
           </Link>
         </p>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => handleSubmit(e)}>
           <div>
             {/* username */}
             <label htmlFor="username">Username</label>

@@ -98,3 +98,10 @@ exports.getLogout = (req, res) => {
   req.logout();
   res.redirect("/");
 };
+
+exports.getUser = async (req, res, user) => {
+  await User.findOne({ _id: req.params._id }, (err, user) => {
+    if (err) return res.json(err);
+    res.json(user);
+  });
+};

@@ -42,7 +42,7 @@ function Login({ setUser }: IProps) {
           </Link>
         </p>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => handleSubmit(e)}>
           <div>
             {/* username */}
             <label htmlFor="username">Username</label>
