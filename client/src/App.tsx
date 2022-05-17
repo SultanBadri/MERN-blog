@@ -8,18 +8,24 @@ import axios from "axios";
 import Nav from "./components/Nav";
 
 function App() {
-  // interface IBackendData {
-  //   data: [];
-  // }
+  interface IPost {
+    title: string;
+    content: string;
+    author: string;
+    date: Date;
+    published: boolean;
+    imageUrl: string;
+  }
 
-  const [backendData, setBackendData] = useState({});
+  const [user, setUser] = useState<null | undefined>();
+  const [posts, setPosts] = useState<IPost[]>([]);
 
   useEffect(() => {
     axios
-      .get("/api")
-      .then((response) => {
-        setBackendData(response.data);
-        console.log(backendData);
+      .get("/api/posts")
+      .then((res) => {
+        setPosts(res.data);
+        console.log(posts);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -30,8 +36,8 @@ function App() {
         <Nav />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login setUser={setUser} />} />
+          <Route path="/signup" element={<SignUp setUser={setUser} />} />
         </Routes>
       </BrowserRouter>
     </>

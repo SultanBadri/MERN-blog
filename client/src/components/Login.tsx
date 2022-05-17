@@ -2,7 +2,11 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-function Login() {
+interface IProps {
+  setUser: React.Dispatch<React.SetStateAction<null | undefined>>;
+}
+
+function Login({ setUser }: IProps) {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -13,11 +17,15 @@ function Login() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     axios
-      .post("/api/users", {
+      .post("/api/users/login", {
         username,
         password,
       })
-      .then(() => {});
+      .then((res) => {
+        localStorage.setItem("user", JSON.stringify(res.data));
+        setUser(res.data.user);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (

@@ -2,7 +2,11 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-function SignUp() {
+interface IProps {
+  setUser: React.Dispatch<React.SetStateAction<null | undefined>>;
+}
+
+function SignUp({ setUser }: IProps) {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -14,12 +18,15 @@ function SignUp() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     axios
-      .post("/api/users", {
+      .post("/api/users/signup", {
         username,
         password,
         confirmPassword,
       })
-      .then(() => {});
+      .then((res) => {
+        setUser(res.data.user);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
