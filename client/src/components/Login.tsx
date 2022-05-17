@@ -1,7 +1,25 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 function Login() {
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  useEffect(() => {
+    document.title = "Login | MERN Blog";
+  }, []);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    axios
+      .post("/api/users", {
+        username,
+        password,
+      })
+      .then(() => {});
+  };
+
   return (
     <div className="bg-black-500 w-1/2 mt-24 absolute left-1/2 -translate-x-1/2">
       <div className="border-2 p-10 shadow-xl rounded-md">
@@ -14,7 +32,7 @@ function Login() {
           </Link>
         </p>
 
-        <form action="POST">
+        <form onSubmit={handleSubmit}>
           <div>
             {/* username */}
             <label htmlFor="username">Username</label>
@@ -23,6 +41,9 @@ function Login() {
               type="text"
               name="username"
               placeholder="Username"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setUsername(e.target.value)
+              }
               required
             />
             <br />
@@ -31,9 +52,12 @@ function Login() {
             <label htmlFor="password">Password</label>
             <br />
             <input
-              type="text"
+              type="password"
               name="password"
               placeholder="Password"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPassword(e.target.value)
+              }
               required
             />
           </div>

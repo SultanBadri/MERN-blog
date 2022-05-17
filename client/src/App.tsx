@@ -8,6 +8,10 @@ import axios from "axios";
 import Nav from "./components/Nav";
 
 function App() {
+  // interface IBackendData {
+  //   data: [];
+  // }
+
   const [backendData, setBackendData] = useState({});
 
   useEffect(() => {

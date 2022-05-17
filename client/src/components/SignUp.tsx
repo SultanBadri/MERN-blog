@@ -1,7 +1,27 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 function SignUp() {
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+
+  useEffect(() => {
+    document.title = "Sign up | MERN Blog";
+  }, []);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    axios
+      .post("/api/users", {
+        username,
+        password,
+        confirmPassword,
+      })
+      .then(() => {});
+  };
+
   return (
     <div className="bg-black-500 w-1/2 mt-24 absolute left-1/2 -translate-x-1/2">
       <div className="border-2 p-10 shadow-xl rounded-md">
@@ -14,7 +34,7 @@ function SignUp() {
           </Link>
         </p>
 
-        <form action="POST">
+        <form onSubmit={handleSubmit}>
           <div>
             {/* username */}
             <label htmlFor="username">Username</label>
@@ -23,6 +43,9 @@ function SignUp() {
               type="text"
               name="username"
               placeholder="Username"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setUsername(e.target.value)
+              }
               required
             />
             <br />
@@ -31,9 +54,12 @@ function SignUp() {
             <label htmlFor="password">Password</label>
             <br />
             <input
-              type="text"
+              type="password"
               name="password"
               placeholder="Password"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setPassword(e.target.value)
+              }
               required
             />
             <br />
@@ -42,9 +68,12 @@ function SignUp() {
             <label htmlFor="confirmPassword">Confirm password</label>
             <br />
             <input
-              type="text"
+              type="password"
               name="confirmPassword"
               placeholder="Confirm password"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setConfirmPassword(e.target.value)
+              }
               required
             />
           </div>

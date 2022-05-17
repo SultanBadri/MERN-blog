@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import bloggingSVG from "../images/blogging.svg";
 
 function Home() {
+  useEffect(() => {
+    document.title = "Home | MERN Blog";
+  }, []);
+
   return (
     <div>
       <div className="bg-gray-300 py-20 px-12">
