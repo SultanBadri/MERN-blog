@@ -23,6 +23,7 @@ exports.getUser = (req, res, user) => {
   });
 };
 
+// post sign up
 exports.postSignUp = [
   // validate sign up form
   body("username", "Username cannot be empty.")
@@ -78,32 +79,30 @@ exports.postSignUp = [
   },
 ];
 
+// post log in
 exports.postLogin = (req, res, next) => {
-  passport.authenticate("local", { session: false }, (err, user, info) => {
-    if (err || !user) {
-      return res.status(401).json({
-        message: "Incorrect username or password.",
-        user,
-      });
-    }
-    const userObject = { _id: user._id, username: user.username };
-    if (err) res.send(err);
-    jwt.sign(
-      userObject,
-      process.env.SECRET,
-      { expiresIn: "60m" },
-      (err, token) => {
-        if (err) return res.status(400).json(err);
-        res.json({
-          token: token,
-          user: userObject,
-        });
-      }
-    );
-  })(req, res);
-};
-
-exports.getLogout = (req, res) => {
-  req.logout();
-  res.redirect("/");
+  const { username, password } = req.body;
+  User.findOne({ username }, (err, user) => {
+    if (err) return res.json(err);
+    if (!user) return res.json({ message: "Incorrect username." });
+    bcrypt.compare(password, user.password, (err, result) => {
+      if (err) return res.json(err);
+      if (!result) return res.json({ message: "Incorrect password." });
+      const userObject = { _id: user._id, username: user.username };
+      jwt.sign(
+        userObject,
+        process.env.SECRET,
+        { expiresIn: "60m" },
+        (err, token) => {
+          if (err) console.log(err);
+          res.status(200).json({
+            token,
+            user: userObject,
+            message: "Successfully logged in.",
+          });
+          console.log("Sucessfully logged in.");
+        }
+      );
+    });
+  });
 };
