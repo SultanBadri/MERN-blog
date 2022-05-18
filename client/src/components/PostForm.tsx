@@ -12,24 +12,28 @@ interface IPost {
 }
 
 interface IProps {
-  user: null | undefined;
   posts: IPost[];
   setPosts: React.Dispatch<React.SetStateAction<IPost[]>>;
 }
 
-function PostForm({ user, posts, setPosts }: IProps) {
-  // user!["username"]
+interface IAuthor {
+  _id: string;
+  username: string;
+}
+
+function PostForm({ posts, setPosts }: IProps) {
   const navigate = useNavigate();
   const [title, setTitle] = useState<string>("");
   const [body, setBody] = useState<string>("");
-  const [author, setAuthor] = useState<string>("");
+  const [author, setAuthor] = useState<IAuthor>(
+    JSON.parse(localStorage.getItem("user")!).user
+  );
   const [date, setDate] = useState<string>();
   const [published, setPublished] = useState<boolean>(false);
   // const [imageUrl, setImageUrl] = useState<string>("");
 
   useEffect(() => {
     document.title = "Create | MERN Blog";
-    console.log(user);
   }, []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -41,8 +45,9 @@ function PostForm({ user, posts, setPosts }: IProps) {
         { title, body, author, date, published },
         {
           headers: {
-            "content-type": "application/json",
-            Authorization: "Bearer" + localStorage.getItem("token"),
+            Authorization: `bearer ${
+              JSON.parse(localStorage.getItem("user")!).token
+            }`,
           },
         }
       )

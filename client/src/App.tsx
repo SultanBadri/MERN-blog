@@ -51,7 +51,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route
             path="/create"
-            element={<PostForm user={user} posts={posts} setPosts={setPosts} />}
+            element={<PostForm posts={posts} setPosts={setPosts} />}
           />
         </Routes>
       </BrowserRouter>
