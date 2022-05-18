@@ -5,6 +5,24 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 const { body, validationResult } = require("express-validator");
 
+// get all users
+exports.getUsers = (req, res, next) => {
+  User.find()
+    .sort([["username", "ascending"]])
+    .exec((err, users) => {
+      if (err) return res.json(err);
+      res.json(users);
+    });
+};
+
+// get a single user
+exports.getUser = (req, res, user) => {
+  User.findById(req.params._id, (err, user) => {
+    if (err) return res.json(err);
+    res.json(user);
+  });
+};
+
 exports.postSignUp = [
   // validate sign up form
   body("username", "Username cannot be empty.")
@@ -20,7 +38,7 @@ exports.postSignUp = [
     "Password must be at least 5 characters long."
   ).custom(async (value, { req }) => {
     if (value !== req.body.password) {
-      return next("Passwords must match!");
+      return res.json("Passwords must match!");
     }
     return true;
   }),
@@ -53,31 +71,32 @@ exports.postSignUp = [
           });
         });
       } catch (err) {
-        return next(err);
+        return res.json(err);
         res.status(500).send("Server error");
       }
     });
   },
 ];
 
-exports.getLogin = (req, res) => {
-  passport.authenticate("local", { session: false }, (err, user) => {
+exports.postLogin = (req, res, next) => {
+  passport.authenticate("local", { session: false }, (err, user, info) => {
     if (err || !user) {
       return res.status(401).json({
-        message: "Incorrect Username or Password",
+        message: "Incorrect username or password.",
         user,
       });
     }
-
+    const userObject = { _id: user._id, username: user.username };
+    if (err) res.send(err);
     jwt.sign(
-      { _id: user._id, username: user.username },
+      userObject,
       process.env.SECRET,
       { expiresIn: "60m" },
       (err, token) => {
         if (err) return res.status(400).json(err);
         res.json({
           token: token,
-          user: { _id: user._id, username: user.username },
+          user: userObject,
         });
       }
     );
@@ -87,11 +106,4 @@ exports.getLogin = (req, res) => {
 exports.getLogout = (req, res) => {
   req.logout();
   res.redirect("/");
-};
-
-exports.getUser = async (req, res, user) => {
-  await User.findOne({ _id: req.params._id }, (err, user) => {
-    if (err) return next(err);
-    res.json(user);
-  });
 };
