@@ -12,7 +12,7 @@ function SignUp() {
     document.title = "Sign up | MERN Blog";
   }, []);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     axios
       .post("/api/users/signup", {

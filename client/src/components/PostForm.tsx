@@ -12,20 +12,16 @@ interface IPost {
 }
 
 interface IProps {
-  user: {
-    username: string;
-    _id: string;
-  };
+  user: null | undefined;
   posts: IPost[];
   setPosts: React.Dispatch<React.SetStateAction<IPost[]>>;
 }
 
 function PostForm({ user, posts, setPosts }: IProps) {
-  console.log(user["username"]);
   const navigate = useNavigate();
   const [title, setTitle] = useState<string>("");
   const [body, setBody] = useState<string>("");
-  const [author, setAuthor] = useState<string>("");
+  const [author, setAuthor] = useState<string>(user!["username"]);
   const [date, setDate] = useState<Date>();
   const [published, setPublished] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>("");
@@ -34,7 +30,7 @@ function PostForm({ user, posts, setPosts }: IProps) {
     document.title = "Create | MERN Blog";
   }, []);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     axios.post("/posts", { title, body });
     // navigate("/")

@@ -17,12 +17,7 @@ function App() {
     imageUrl: string;
   }
 
-  interface IUser {
-    username: string;
-    _id: string;
-  }
-
-  const [user, setUser] = useState<null | undefined | IUser>();
+  const [user, setUser] = useState<null | undefined>();
   const [posts, setPosts] = useState<IPost[]>([]);
 
   useEffect(() => {

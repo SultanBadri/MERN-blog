@@ -6,7 +6,7 @@ interface IProps {
 }
 
 function Nav({ user, setUser }: IProps) {
-  const handleLogout = () => {
+  const handleLogout = (): void => {
     localStorage.removeItem("user");
     setUser(undefined);
   };
