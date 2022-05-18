@@ -12,8 +12,10 @@ function App() {
   interface IPost {
     title: string;
     body: string;
-    author: string;
-    date: string;
+    author: {
+      [key: string]: any[];
+    };
+    date: Date;
     published: boolean;
     // imageUrl: string;
   }

@@ -5,8 +5,10 @@ import { useNavigate } from "react-router-dom";
 interface IPost {
   title: string;
   body: string;
-  author: string;
-  date: string;
+  author: {
+    [key: string]: any[];
+  };
+  date: Date;
   published: boolean;
   // imageUrl: string;
 }
@@ -26,7 +28,7 @@ function PostForm({ posts, setPosts }: IProps) {
   const [title, setTitle] = useState<string>("");
   const [body, setBody] = useState<string>("");
   const [author, setAuthor] = useState<IAuthor>(
-    JSON.parse(localStorage.getItem("user")!).user.username
+    JSON.parse(localStorage.getItem("user")!).user
   );
   const [date, setDate] = useState<string>();
   const [published, setPublished] = useState<boolean>(false);
@@ -38,7 +40,6 @@ function PostForm({ posts, setPosts }: IProps) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    setDate(new Date().toLocaleDateString());
     let data = JSON.stringify({ title, body, author, date, published });
     axios
       .post("/api/posts/create", data, {
