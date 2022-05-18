@@ -19,6 +19,10 @@ function PostForm({ posts, setPosts }: IProps) {
   const [title, setTitle] = useState<string>("");
   const [body, setBody] = useState<string>("");
 
+  useEffect(() => {
+    document.title = "Create | MERN Blog";
+  }, []);
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
