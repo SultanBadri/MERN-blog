@@ -3,10 +3,11 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 interface IProps {
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   setUser: React.Dispatch<React.SetStateAction<null | undefined>>;
 }
 
-function Login({ setUser }: IProps) {
+function Login({ setIsLoggedIn, setUser }: IProps) {
   const navigate = useNavigate();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -25,6 +26,7 @@ function Login({ setUser }: IProps) {
       .then((res) => {
         localStorage.setItem("user", JSON.stringify(res.data));
         setUser(res.data.user);
+        setIsLoggedIn(true);
         navigate("/");
       })
       .catch((err) => console.log(err));

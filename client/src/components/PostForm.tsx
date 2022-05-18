@@ -29,6 +29,7 @@ function PostForm({ user, posts, setPosts }: IProps) {
 
   useEffect(() => {
     document.title = "Create | MERN Blog";
+    console.log(user);
   }, []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
@@ -40,9 +41,8 @@ function PostForm({ user, posts, setPosts }: IProps) {
         { title, body, author, date, published },
         {
           headers: {
-            Authorization: `bearer ${
-              JSON.parse(localStorage.getItem("user")!).token
-            }`,
+            "content-type": "application/json",
+            Authorization: "Bearer" + localStorage.getItem("token"),
           },
         }
       )
