@@ -17,7 +17,12 @@ function App() {
     imageUrl: string;
   }
 
-  const [user, setUser] = useState<null | undefined>();
+  interface IUser {
+    username: string;
+    _id: string;
+  }
+
+  const [user, setUser] = useState<null | undefined | IUser>();
   const [posts, setPosts] = useState<IPost[]>([]);
 
   useEffect(() => {
@@ -40,7 +45,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route
             path="/create"
-            element={<PostForm posts={posts} setPosts={setPosts} />}
+            element={<PostForm user={user} posts={posts} setPosts={setPosts} />}
           />
         </Routes>
       </BrowserRouter>

@@ -7,7 +7,7 @@ const PostSchema = new Schema({
   author: { type: Schema.Types.ObjectId, ref: "User", required: true },
   date: { type: Date, default: Date.now },
   published: { type: Boolean, default: false },
-  imageUrl: { type: String, required: true },
+  imageUrl: { type: String, required: false },
 });
 
 module.exports = mongoose.model("Post", PostSchema);
