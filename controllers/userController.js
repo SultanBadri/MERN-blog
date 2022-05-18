@@ -100,7 +100,7 @@ exports.postLogin = (req, res, next) => {
             user: userObject,
             message: "Successfully logged in.",
           });
-          console.log("Sucessfully logged in.");
+          console.log("Successfully logged in.");
         }
       );
     });
