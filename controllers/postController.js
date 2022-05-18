@@ -2,9 +2,8 @@ const Post = require("../models/post");
 const { body, validationResult } = require("express-validator");
 
 exports.createPost = [
-  // validate create post forms
   body("title", "No title").trim().isLength({ min: 1 }).escape(),
-  body("content", "No content").trim().isLength({ min: 1 }).escape(),
+  body("body", "No body").trim().isLength({ min: 1 }).escape(),
 
   async (req, res, next) => {
     const errors = validationResult(req);
@@ -13,18 +12,17 @@ exports.createPost = [
     }
 
     try {
-      const { title, content, published, imageUrl } = req.body;
+      const { title, body, author, date, published } = req.body;
       const post = await new Post({
         title,
-        content,
-        author: req.user._id,
-        date: Date.now(),
+        body,
+        author,
+        date,
         published,
-        imageUrl,
       });
-      res.json(post);
+      return res.json(post);
     } catch (err) {
-      return next(err);
+      return res.json(err);
       res.status(500).send("Server error");
     }
   },

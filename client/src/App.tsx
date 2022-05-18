@@ -12,7 +12,7 @@ function App() {
     title: string;
     content: string;
     author: string;
-    date: Date;
+    date: string;
     published: boolean;
     imageUrl: string;
   }

@@ -6,7 +6,7 @@ interface IPost {
   title: string;
   content: string;
   author: string;
-  date: Date;
+  date: string;
   published: boolean;
   imageUrl: string;
 }
@@ -18,13 +18,14 @@ interface IProps {
 }
 
 function PostForm({ user, posts, setPosts }: IProps) {
+  // user!["username"]
   const navigate = useNavigate();
   const [title, setTitle] = useState<string>("");
   const [body, setBody] = useState<string>("");
-  const [author, setAuthor] = useState<string>(user!["username"]);
-  const [date, setDate] = useState<Date>();
+  const [author, setAuthor] = useState<string>("");
+  const [date, setDate] = useState<string>();
   const [published, setPublished] = useState<boolean>(false);
-  const [imageUrl, setImageUrl] = useState<string>("");
+  // const [imageUrl, setImageUrl] = useState<string>("");
 
   useEffect(() => {
     document.title = "Create | MERN Blog";
@@ -32,8 +33,24 @@ function PostForm({ user, posts, setPosts }: IProps) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    axios.post("/posts", { title, body });
-    // navigate("/")
+    setDate(new Date().toLocaleDateString());
+    axios
+      .post(
+        "api/posts/create",
+        { title, body, author, date, published },
+        {
+          headers: {
+            Authorization: `bearer ${
+              JSON.parse(localStorage.getItem("user")!).token
+            }`,
+          },
+        }
+      )
+      .then((res) => {
+        setPosts([...posts, res.data]);
+        navigate("/");
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -61,6 +78,8 @@ function PostForm({ user, posts, setPosts }: IProps) {
           }
           required
         ></textarea>
+        <br />
+        <button>Post</button>
       </form>
     </>
   );
