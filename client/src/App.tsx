@@ -3,9 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
-import "./App.css";
 import axios from "axios";
 import Nav from "./components/Nav";
+import PostForm from "./components/PostForm";
 
 function App() {
   interface IPost {
@@ -38,6 +38,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/create"
+            element={<PostForm posts={posts} setPosts={setPosts} />}
+          />
         </Routes>
       </BrowserRouter>
     </>
