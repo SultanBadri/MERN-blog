@@ -10,14 +10,13 @@ import PostForm from "./components/PostForm";
 function App() {
   interface IPost {
     title: string;
-    content: string;
+    body: string;
     author: string;
     date: string;
     published: boolean;
-    imageUrl: string;
+    // imageUrl: string;
   }
 
-  const [user, setUser] = useState<null | undefined>();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [posts, setPosts] = useState<IPost[]>([]);
 
@@ -37,16 +36,12 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Nav
-          isLoggedIn={isLoggedIn}
-          setIsLoggedIn={setIsLoggedIn}
-          setUser={setUser}
-        />
+        <Nav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
             path="/login"
-            element={<Login setIsLoggedIn={setIsLoggedIn} setUser={setUser} />}
+            element={<Login setIsLoggedIn={setIsLoggedIn} />}
           />
           <Route path="/signup" element={<SignUp />} />
           <Route

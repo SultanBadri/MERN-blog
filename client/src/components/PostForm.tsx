@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 
 interface IPost {
   title: string;
-  content: string;
+  body: string;
   author: string;
   date: string;
   published: boolean;
-  imageUrl: string;
+  // imageUrl: string;
 }
 
 interface IProps {
@@ -41,7 +41,7 @@ function PostForm({ posts, setPosts }: IProps) {
     setDate(new Date().toLocaleDateString());
     axios
       .post(
-        "api/posts/create",
+        "/api/posts/create",
         { title, body, author, date, published },
         {
           headers: {
@@ -76,13 +76,22 @@ function PostForm({ posts, setPosts }: IProps) {
         <br />
         <label htmlFor="body">Content</label>
         <br />
-        <textarea
+        {/* <textarea
           placeholder="Content"
           onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
             setBody(e.target.value)
           }
           required
-        ></textarea>
+        ></textarea> */}
+        <input
+          type="text"
+          name="body"
+          placeholder="Content"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setBody(e.target.value)
+          }
+          required
+        />
         <br />
         <button>Post</button>
       </form>
