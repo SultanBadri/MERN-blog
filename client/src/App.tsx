@@ -6,6 +6,7 @@ import SignUp from "./components/SignUp";
 import axios from "axios";
 import Nav from "./components/Nav";
 import PostForm from "./components/PostForm";
+import Posts from "./components/Posts";
 
 function App() {
   interface IPost {
@@ -48,6 +49,7 @@ function App() {
             path="/create"
             element={<PostForm posts={posts} setPosts={setPosts} />}
           />
+          <Route path="/posts" element={<Posts posts={posts} />} />
         </Routes>
       </BrowserRouter>
     </>

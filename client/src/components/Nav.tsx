@@ -26,6 +26,9 @@ function Nav({ isLoggedIn, setIsLoggedIn }: IProps) {
         <Link to="/create" hidden={isLoggedIn ? false : true}>
           <li className="px-2 hover:text-purple-600">Create</li>
         </Link>
+        <Link to="/posts" hidden={isLoggedIn ? false : true}>
+          <li className="px-2 hover:text-purple-600">My posts</li>
+        </Link>
         <Link to="/" hidden={isLoggedIn ? false : true}>
           <li onClick={handleLogout} className="px-2 hover:text-purple-600">
             Log out

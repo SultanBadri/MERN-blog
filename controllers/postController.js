@@ -2,29 +2,29 @@ const Post = require("../models/post");
 const { body, validationResult } = require("express-validator");
 
 exports.createPost = [
-  body("title", "No title").trim().isLength({ min: 1 }).escape(),
-  body("body", "No body").trim().isLength({ min: 1 }).escape(),
+  body("title", "Empty name").trim().escape(),
+  body("body", "text").trim().escape(),
 
-  async (req, res, next) => {
+  function (req, res, next) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.json({ errors: errors.array() });
     }
 
-    try {
-      const { title, body, author, date, published } = req.body;
-      const post = await new Post({
-        title,
-        body,
-        author,
-        date,
-        published,
-      });
-      return res.json(post);
-    } catch (err) {
-      return res.json(err);
-      res.status(500).send("Server error");
-    }
+    const { title, body, author, date, published } = req.body;
+    const post = new Post({
+      title,
+      body,
+      author,
+      date,
+      published,
+    });
+    post.save((err) => {
+      if (err) {
+        return next(err);
+      }
+      res.status(200).json({ msg: "post sent" });
+    });
   },
 ];
 
@@ -48,7 +48,7 @@ exports.getOnePost = async (req, res, next) => {
 exports.getAllPosts = async (req, res, next) => {
   try {
     const posts = await Post.find()
-      .sort([["date", "descending"]])
+      .sort([["date", "ascending"]])
       .populate("author");
 
     if (!posts) {

@@ -26,7 +26,7 @@ function PostForm({ posts, setPosts }: IProps) {
   const [title, setTitle] = useState<string>("");
   const [body, setBody] = useState<string>("");
   const [author, setAuthor] = useState<IAuthor>(
-    JSON.parse(localStorage.getItem("user")!).user
+    JSON.parse(localStorage.getItem("user")!).user.username
   );
   const [date, setDate] = useState<string>();
   const [published, setPublished] = useState<boolean>(false);
@@ -39,23 +39,21 @@ function PostForm({ posts, setPosts }: IProps) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     setDate(new Date().toLocaleDateString());
+    let data = JSON.stringify({ title, body, author, date, published });
     axios
-      .post(
-        "/api/posts/create",
-        { title, body, author, date, published },
-        {
-          headers: {
-            Authorization: `bearer ${
-              JSON.parse(localStorage.getItem("user")!).token
-            }`,
-          },
-        }
-      )
+      .post("/api/posts/create", data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `bearer ${
+            JSON.parse(localStorage.getItem("user")!).token
+          }`,
+        },
+      })
       .then((res) => {
         setPosts([...posts, res.data]);
         navigate("/");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err.response.data));
   };
 
   return (
@@ -76,13 +74,6 @@ function PostForm({ posts, setPosts }: IProps) {
         <br />
         <label htmlFor="body">Content</label>
         <br />
-        {/* <textarea
-          placeholder="Content"
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-            setBody(e.target.value)
-          }
-          required
-        ></textarea> */}
         <input
           type="text"
           name="body"
