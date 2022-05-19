@@ -29,8 +29,6 @@ function App() {
     if (localStorage.getItem("user")) {
       setIsLoggedIn(localStorage.getItem("user"));
     }
-
-    // console.log(localStorage.getItem("user"));
   });
 
   useEffect(() => {

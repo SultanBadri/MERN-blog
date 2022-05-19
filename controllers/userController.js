@@ -93,11 +93,19 @@ exports.postLogin = [
   (req, res, next) => {
     const { username, password } = req.body;
     User.findOne({ username }, (err, user) => {
-      if (err) return res.json(err);
-      if (!user) return res.json({ message: "User not found." });
+      if (err || !user) {
+        return res.status(400).json({
+          message: "User not found",
+          user,
+        });
+      }
       bcrypt.compare(password, user.password, (err, result) => {
-        if (err) return res.json(err);
-        if (!result) return res.json({ message: "Wrong Password." });
+        if (err || !result) {
+          return res.status(400).json({
+            message: "Incorrect password",
+            result,
+          });
+        }
         const userObject = { _id: user._id, username: user.username };
         jwt.sign(
           userObject,
