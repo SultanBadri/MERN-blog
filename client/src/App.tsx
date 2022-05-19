@@ -20,18 +20,15 @@ function App() {
     // imageUrl: string;
   }
 
-  const [user, setUser] = useState<null | undefined>();
-  const [isLoggedIn, setIsLoggedIn] = useState<any>();
+  const [user, setUser] = useState<any>();
   const [posts, setPosts] = useState<IPost[]>([]);
 
-  // make sure user is still logged in
   useEffect(() => {
+    // make sure user is still logged in
     if (localStorage.getItem("user")) {
-      setIsLoggedIn(localStorage.getItem("user"));
+      setUser(localStorage.getItem("user"));
     }
-  });
 
-  useEffect(() => {
     axios
       .get("/api/posts")
       .then((res) => {
@@ -43,13 +40,10 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Nav isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
+        <Nav user={user} setUser={setUser} />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route
-            path="/login"
-            element={<Login setIsLoggedIn={setIsLoggedIn} />}
-          />
+          <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<SignUp />} />
           <Route
             path="/create"
