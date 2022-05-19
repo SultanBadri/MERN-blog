@@ -6,7 +6,7 @@ interface IPost {
   title: string;
   body: string;
   author: {
-    [key: string]: any[];
+    [key: string]: any;
   };
   date: Date;
   published: boolean;

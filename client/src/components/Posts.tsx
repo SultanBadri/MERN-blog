@@ -1,8 +1,10 @@
+import { useState, useEffect } from "react";
+
 interface IPost {
   title: string;
   body: string;
   author: {
-    [key: string]: any[];
+    [key: string]: any;
   };
   date: Date;
   published: boolean;
@@ -14,17 +16,22 @@ interface IProps {
 }
 
 function Posts({ posts }: IProps) {
-  // const handlePublish = () => {
+  const [userId, setUserId] = useState<string>("");
 
-  // }
+  const getUserId = async () => {
+    const userId = await JSON.parse(localStorage.getItem("user")!).user._id;
+    setUserId(userId);
+  };
 
-  const userPosts = [];
-  for (const post of posts) {
-    let userId = JSON.parse(localStorage.getItem("user")!).user._id;
-    if (userId === post.author._id) {
-      userPosts.push(post);
+  useEffect(() => {
+    document.title = "My posts | MERN Blog";
+    if (!userId) {
+      getUserId();
     }
-  }
+  });
+
+  //   const userId = JSON.parse(localStorage.getItem("user")!).user._id;
+  const userPosts = posts.filter((post) => userId === post.author._id);
 
   console.log(posts);
 
