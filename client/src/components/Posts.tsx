@@ -13,27 +13,19 @@ interface IPost {
 
 interface IProps {
   posts: IPost[];
+  setPosts: React.Dispatch<React.SetStateAction<IPost[]>>;
 }
 
-function Posts({ posts }: IProps) {
-  const [userId, setUserId] = useState<string>("");
-
-  const getUserId = async () => {
-    const userId = await JSON.parse(localStorage.getItem("user")!).user._id;
-    setUserId(userId);
-  };
-
+function Posts({ posts, setPosts }: IProps) {
   useEffect(() => {
     document.title = "My posts | MERN Blog";
-    if (!userId) {
-      getUserId();
-    }
-  });
-
-  //   const userId = JSON.parse(localStorage.getItem("user")!).user._id;
-  const userPosts = posts.filter((post) => userId === post.author._id);
+    setPosts(posts);
+  }, []);
 
   console.log(posts);
+
+  const userId = JSON.parse(localStorage.getItem("user")!).user._id;
+  const userPosts = posts.filter((post) => userId === post.author._id);
 
   return (
     <>
