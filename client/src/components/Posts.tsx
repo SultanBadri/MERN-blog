@@ -19,10 +19,7 @@ interface IProps {
 function Posts({ posts, setPosts }: IProps) {
   useEffect(() => {
     document.title = "My posts | MERN Blog";
-    setPosts(posts);
   }, []);
-
-  console.log(posts);
 
   const userId = JSON.parse(localStorage.getItem("user")!).user._id;
   const userPosts = posts.filter((post) => userId === post.author._id);

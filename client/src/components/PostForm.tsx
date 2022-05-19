@@ -52,6 +52,9 @@ function PostForm({ posts, setPosts }: IProps) {
       })
       .then((res) => {
         setPosts([...posts, res.data]);
+        axios.get("/api/posts").then((res) => {
+          setPosts(res.data);
+        });
         navigate("/");
       })
       .catch((err) => console.log(err.response.data));
