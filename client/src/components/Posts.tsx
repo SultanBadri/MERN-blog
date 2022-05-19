@@ -37,7 +37,7 @@ function Posts({ posts }: IProps) {
             <h2 className="text-2xl font-bold">{post.title}</h2>
             <p>{post.body}</p>
             <p>{`By ${post.author["username"]}`}</p>
-            <p>{`Created on ${post.date}`}</p>
+            <p>{`Created on ${new Date(post.date).toLocaleDateString()}`}</p>
             <p>{`Status: ${post.published ? "Published" : "Not published"}`}</p>
           </div>
         );
