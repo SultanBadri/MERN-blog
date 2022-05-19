@@ -3,6 +3,8 @@ const express = require("express");
 const path = require("path");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const JWTStrategy = require("passport-jwt").Strategy;
+const extractJWT = require("passport-jwt").ExtractJwt;
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const User = require("./models/user");
@@ -38,24 +40,48 @@ app.get("*", (req, res) => {
 
 // Checks username and password
 passport.use(
-  new LocalStrategy(async (username, password, done) => {
-    try {
-      const user = await User.findOne({ username: username });
-      if (!user) {
-        return done(null, false, { message: "Incorrect username" });
+  "local",
+  new LocalStrategy(
+    {
+      usernameField: "username",
+      passwordField: "password",
+    },
+    async (username, password, done) => {
+      try {
+        const user = await Author.findOne({ username });
+
+        if (!user) {
+          return done(null, false, { message: "User not found" });
+        }
+
+        const validate = await user.isValidPassword(password);
+
+        if (!validate) {
+          return done(null, false, { message: "Wrong Password" });
+        }
+
+        return done(null, user, { message: "Logged in Successfully" });
+      } catch (error) {
+        return done(error);
       }
-      const res = await bcrypt.compare(password, user.password);
-      if (res) {
-        // passwords match! log user in
-        return done(null, user);
-      } else {
-        // passwords do not match!
-        return done(null, false, { message: "Incorrect password" });
-      }
-    } catch (err) {
-      return done(err);
     }
-  })
+  )
+);
+
+passport.use(
+  new JWTStrategy(
+    {
+      secretOrKey: process.env.SECRET,
+      jwtFromRequest: extractJWT.fromAuthHeaderAsBearerToken(),
+    },
+    async (token, done) => {
+      try {
+        return done(null, token.user);
+      } catch (error) {
+        done(error);
+      }
+    }
+  )
 );
 
 // sessions and serialization

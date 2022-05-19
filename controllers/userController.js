@@ -30,19 +30,18 @@ exports.postSignUp = [
     .trim()
     .isLength({ min: 1 })
     .escape(),
-  body("password", "Password must be at least 5 characters long.")
+  body("password", "Password cannot be empty.")
     .trim()
-    .isLength({ min: 5 })
+    .isLength({ min: 1 })
     .escape(),
-  body(
-    "confirmPassword",
-    "Password must be at least 5 characters long."
-  ).custom(async (value, { req }) => {
-    if (value !== req.body.password) {
-      return res.json("Passwords must match!");
+  body("confirmPassword", "Confirmed password cannot be empty.").custom(
+    async (value, { req }) => {
+      if (value !== req.body.password) {
+        return res.json("Passwords must match!");
+      }
+      return true;
     }
-    return true;
-  }),
+  ),
 
   // handle signup
   (req, res, next) => {
@@ -59,7 +58,7 @@ exports.postSignUp = [
             jwt.sign(
               userObject,
               process.env.SECRET,
-              { expiresIn: "60m" },
+              { expiresIn: 3600 },
               (err, token) => {
                 if (err) console.log(err);
                 res.status(200).json({
@@ -79,29 +78,41 @@ exports.postSignUp = [
   },
 ];
 
-// post log in
-exports.postLogin = (req, res, next) => {
-  const { username, password } = req.body;
-  User.findOne({ username }, (err, user) => {
-    if (err) return res.json(err);
-    if (!user) return res.json({ message: "Incorrect username." });
-    bcrypt.compare(password, user.password, (err, result) => {
+exports.postLogin = [
+  // validate sign in form
+  body("username", "Username cannot be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+  body("password", "Password cannot be empty.")
+    .trim()
+    .isLength({ min: 1 })
+    .escape(),
+
+  // handle sign in
+  (req, res, next) => {
+    const { username, password } = req.body;
+    User.findOne({ username }, (err, user) => {
       if (err) return res.json(err);
-      if (!result) return res.json({ message: "Incorrect password." });
-      const userObject = { _id: user._id, username: user.username };
-      jwt.sign(
-        userObject,
-        process.env.SECRET,
-        { expiresIn: "60m" },
-        (err, token) => {
-          if (err) console.log(err);
-          res.status(200).json({
-            token,
-            user: userObject,
-            message: "Successfully logged in.",
-          });
-        }
-      );
+      if (!user) return res.json({ message: "User not found." });
+      bcrypt.compare(password, user.password, (err, result) => {
+        if (err) return res.json(err);
+        if (!result) return res.json({ message: "Wrong Password." });
+        const userObject = { _id: user._id, username: user.username };
+        jwt.sign(
+          userObject,
+          process.env.SECRET,
+          { expiresIn: 3600 },
+          (err, token) => {
+            if (err) console.log(err);
+            res.status(200).json({
+              token,
+              user: userObject,
+              message: "Successfully signed in.",
+            });
+          }
+        );
+      });
     });
-  });
-};
+  },
+];

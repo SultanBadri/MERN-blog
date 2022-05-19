@@ -2,11 +2,11 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-interface IProps {
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-}
+// interface IProps {
+//   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+// }
 
-function Login({ setIsLoggedIn }: IProps) {
+function Login({ setIsLoggedIn }: any) {
   const navigate = useNavigate();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -24,10 +24,16 @@ function Login({ setIsLoggedIn }: IProps) {
       })
       .then((res) => {
         localStorage.setItem("user", JSON.stringify(res.data));
-        setIsLoggedIn(true);
+        setIsLoggedIn(res.data.user);
         navigate("/");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (err.response.status === 401) {
+          navigate("/login");
+        } else {
+          console.error(err);
+        }
+      });
   };
 
   return (

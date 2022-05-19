@@ -20,14 +20,20 @@ function App() {
     // imageUrl: string;
   }
 
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [user, setUser] = useState<null | undefined>();
+  const [isLoggedIn, setIsLoggedIn] = useState<any>();
   const [posts, setPosts] = useState<IPost[]>([]);
 
+  // make sure user is still logged in
   useEffect(() => {
     if (localStorage.getItem("user")) {
-      setIsLoggedIn(true);
+      setIsLoggedIn(localStorage.getItem("user"));
     }
 
+    // console.log(localStorage.getItem("user"));
+  });
+
+  useEffect(() => {
     axios
       .get("/api/posts")
       .then((res) => {

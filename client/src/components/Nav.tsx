@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 
-interface IProps {
-  isLoggedIn: boolean;
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-}
+// interface IProps {
+//   isLoggedIn: boolean;
+//   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+// }
 
-function Nav({ isLoggedIn, setIsLoggedIn }: IProps) {
+function Nav({ isLoggedIn, setIsLoggedIn }: any) {
   const handleLogout = (): void => {
     localStorage.removeItem("user");
-    setIsLoggedIn(false);
+    setIsLoggedIn(undefined);
   };
 
   return (
