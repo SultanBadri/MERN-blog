@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 
 interface IPost {
@@ -13,16 +14,19 @@ interface IPost {
 
 interface IProps {
   posts: IPost[];
+  setPosts: React.Dispatch<React.SetStateAction<IPost[]>>;
 }
 
-function Posts({ posts }: IProps) {
+function Posts({ posts, setPosts }: IProps) {
+  const userId = JSON.parse(localStorage.getItem("user")!).user._id;
+  const userPosts = posts.filter((post) => userId === post.author._id);
+
   useEffect(() => {
     document.title = "My posts | MERN Blog";
     console.log(posts);
   }, []);
 
-  const userId = JSON.parse(localStorage.getItem("user")!).user._id;
-  const userPosts = posts.filter((post) => userId === post.author._id);
+  const togglePublish = (): void => {};
 
   return (
     <>
@@ -35,7 +39,12 @@ function Posts({ posts }: IProps) {
             <p>{post.body}</p>
             <p>{`By ${post.author["username"]}`}</p>
             <p>{`Created on ${new Date(post.date).toLocaleDateString()}`}</p>
-            <p>{`Status: ${post.published ? "Published" : "Not published"}`}</p>
+            <button
+              onClick={() => togglePublish()}
+              className="bg-white text-purple-600 my-2 px-2 py-1 rounded duration-300 hover:text-white hover:bg-purple-600"
+            >
+              {post.published ? "Unpublish" : "Publish"}
+            </button>
           </div>
         );
       })}
