@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 interface IPost {
   _id: string;
@@ -24,7 +25,6 @@ function Dashboard({ posts, setPosts }: IProps) {
 
   useEffect(() => {
     document.title = "Dashboard | MERN Blog";
-    console.log(posts);
   }, []);
 
   const togglePublish = (toggledPost: IPost): void => {
@@ -57,19 +57,21 @@ function Dashboard({ posts, setPosts }: IProps) {
       <h1 className="text-3xl font-bold text-center m-8">Dashboard</h1>
       {userPosts.reverse().map((post: IPost) => {
         return (
-          <div className="bg-slate-200 m-6 p-4 rounded" key={post._id}>
-            <img src={post.imageUrl} alt="post background" />
-            <h2 className="text-2xl font-bold">{post.title}</h2>
-            <p>{post.body}</p>
-            <p>{`By ${post.author["username"]}`}</p>
-            <p>{`Created on ${new Date(post.date).toLocaleDateString()}`}</p>
-            <button
-              onClick={() => togglePublish(post)}
-              className="bg-white text-purple-600 my-2 px-2 py-1 rounded duration-300 hover:text-white hover:bg-purple-600"
-            >
-              {post.published ? "Unpublish" : "Publish"}
-            </button>
-          </div>
+          <Link to={`/posts/${post._id}`} key={post._id}>
+            <div className="bg-slate-200 m-6 p-4 rounded" key={post._id}>
+              <img src={post.imageUrl} alt="post background" />
+              <h2 className="text-2xl font-bold">{post.title}</h2>
+              <p>{post.body}</p>
+              <p>{`By ${post.author["username"]}`}</p>
+              <p>{`Created on ${new Date(post.date).toLocaleDateString()}`}</p>
+              <button
+                onClick={() => togglePublish(post)}
+                className="bg-white text-purple-600 my-2 px-2 py-1 rounded duration-300 hover:text-white hover:bg-purple-600"
+              >
+                {post.published ? "Unpublish" : "Publish"}
+              </button>
+            </div>
+          </Link>
         );
       })}
     </>

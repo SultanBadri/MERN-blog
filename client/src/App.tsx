@@ -40,31 +40,33 @@ function App() {
   }, []);
 
   return (
-    <>
-      <BrowserRouter>
+    <BrowserRouter>
+      <header>
         <Nav user={user} setUser={setUser} />
-        <Routes>
-          <Route path="/" element={<Home posts={posts} />} />
-          <Route path="/login" element={<Login setUser={setUser} />} />
-          <Route path="/signup" element={<SignUp />} />
+      </header>
+      <Routes>
+        {/* Pages  */}
+        <Route path="/" element={<Home posts={posts} />} />
+        <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route
+          path="/create"
+          element={<PostForm posts={posts} setPosts={setPosts} />}
+        />
+        <Route
+          path="/dashboard"
+          element={<Dashboard posts={posts} setPosts={setPosts} />}
+        />
+        {/* Posts  */}
+        {posts.map((post: IPost) => {
           <Route
-            path="/create"
-            element={<PostForm posts={posts} setPosts={setPosts} />}
-          />
-          <Route
-            path="/dashboard"
-            element={<Dashboard posts={posts} setPosts={setPosts} />}
-          />
-          {posts.map((post: IPost) => {
-            <Route
-              key={post._id}
-              path={`/posts/${post._id}`}
-              element={<Post {...post} user={user} />}
-            />;
-          })}
-        </Routes>
-      </BrowserRouter>
-    </>
+            key={post._id}
+            path={`/posts/${post._id}`}
+            element={<Post {...post} user={user} />}
+          />;
+        })}
+      </Routes>
+    </BrowserRouter>
   );
 }
 
