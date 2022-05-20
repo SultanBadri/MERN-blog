@@ -23,11 +23,14 @@ function Nav({ user, setUser }: IProps) {
         <Link to="/signup" hidden={user ? true : false}>
           <li className="px-2 hover:text-purple-600">Sign up</li>
         </Link>
-        <Link to="/create" hidden={user ? false : true}>
-          <li className="px-2 hover:text-purple-600">Create</li>
+        <Link to="/" hidden={user ? false : true}>
+          <li className="px-2 hover:text-purple-600">Home</li>
         </Link>
         <Link to="/posts" hidden={user ? false : true}>
-          <li className="px-2 hover:text-purple-600">My posts</li>
+          <li className="px-2 hover:text-purple-600">Dashboard</li>
+        </Link>
+        <Link to="/create" hidden={user ? false : true}>
+          <li className="px-2 hover:text-purple-600">Create</li>
         </Link>
         <Link to="/" hidden={user ? false : true}>
           <li onClick={handleLogout} className="px-2 hover:text-purple-600">

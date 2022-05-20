@@ -18,12 +18,12 @@ interface IProps {
   setPosts: React.Dispatch<React.SetStateAction<IPost[]>>;
 }
 
-function Posts({ posts, setPosts }: IProps) {
+function Dashboard({ posts, setPosts }: IProps) {
   const userId = JSON.parse(localStorage.getItem("user")!).user._id;
   const userPosts = posts.filter((post) => userId === post.author._id);
 
   useEffect(() => {
-    document.title = "My posts | MERN Blog";
+    document.title = "Dashboard | MERN Blog";
     console.log(posts);
   }, []);
 
@@ -54,7 +54,7 @@ function Posts({ posts, setPosts }: IProps) {
 
   return (
     <>
-      <h1 className="text-3xl font-bold text-center m-8">My posts</h1>
+      <h1 className="text-3xl font-bold text-center m-8">Dashboard</h1>
       {userPosts.reverse().map((post: IPost, i: number) => {
         return (
           <div className="bg-slate-200 m-6 p-4 rounded" key={i}>
@@ -76,4 +76,4 @@ function Posts({ posts, setPosts }: IProps) {
   );
 }
 
-export default Posts;
+export default Dashboard;

@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import axios from "axios";
+import Nav from "./components/Nav";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
-import axios from "axios";
-import Nav from "./components/Nav";
 import PostForm from "./components/PostForm";
-import Posts from "./components/Posts";
+import Dashboard from "./components/Dashboard";
+import Post from "./components/Post";
 
 function App() {
   interface IPost {
@@ -52,8 +53,9 @@ function App() {
           />
           <Route
             path="/posts"
-            element={<Posts posts={posts} setPosts={setPosts} />}
+            element={<Dashboard posts={posts} setPosts={setPosts} />}
           />
+          <Route path="" />
         </Routes>
       </BrowserRouter>
     </>
