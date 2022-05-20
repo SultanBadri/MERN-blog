@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface IPost {
+  _id: string;
   title: string;
   body: string;
   author: {

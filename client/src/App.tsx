@@ -10,6 +10,7 @@ import Posts from "./components/Posts";
 
 function App() {
   interface IPost {
+    _id: string;
     title: string;
     body: string;
     author: {

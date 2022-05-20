@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 interface IPost {
+  _id: string;
   title: string;
   body: string;
   author: {
@@ -26,12 +27,35 @@ function Posts({ posts, setPosts }: IProps) {
     console.log(posts);
   }, []);
 
-  const togglePublish = (): void => {};
+  const togglePublish = (toggledPost: IPost): void => {
+    const postUrl: String = toggledPost.published ? "Unpublish" : "Publish";
+    axios
+      .post(
+        `/api/posts/${postUrl}`,
+        { toggledPost },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `bearer ${
+              JSON.parse(localStorage.getItem("user")!).token
+            }`,
+          },
+        }
+      )
+      .then((res) => {
+        setPosts((prevState) => {
+          return prevState.map((post) =>
+            post._id === toggledPost._id ? res.data : post
+          );
+        });
+      })
+      .catch((err) => console.log(err.response.data));
+  };
 
   return (
     <>
       <h1 className="text-3xl font-bold text-center m-8">My posts</h1>
-      {userPosts.reverse().map((post, i) => {
+      {userPosts.reverse().map((post: IPost, i: number) => {
         return (
           <div className="bg-slate-200 m-6 p-4 rounded" key={i}>
             <img src={post.imageUrl} alt="post background" />
@@ -40,7 +64,7 @@ function Posts({ posts, setPosts }: IProps) {
             <p>{`By ${post.author["username"]}`}</p>
             <p>{`Created on ${new Date(post.date).toLocaleDateString()}`}</p>
             <button
-              onClick={() => togglePublish()}
+              onClick={() => togglePublish(post)}
               className="bg-white text-purple-600 my-2 px-2 py-1 rounded duration-300 hover:text-white hover:bg-purple-600"
             >
               {post.published ? "Unpublish" : "Publish"}
