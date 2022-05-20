@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import axios from "axios";
 import Nav from "./components/Nav";
-import Home from "./components/Home";
-import Login from "./components/Login";
-import SignUp from "./components/SignUp";
-import PostForm from "./components/PostForm";
-import Dashboard from "./components/Dashboard";
-import Post from "./components/Post";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import PostForm from "./pages/PostForm";
+import Dashboard from "./pages/Dashboard";
+import Post from "./pages/Post";
 
 function App() {
   interface IPost {
@@ -55,8 +55,9 @@ function App() {
             path="/dashboard"
             element={<Dashboard posts={posts} setPosts={setPosts} />}
           />
-          {posts.map((post: IPost, i: number) => {
+          {posts.map((post: IPost) => {
             <Route
+              key={post._id}
               path={`/posts/${post._id}`}
               element={<Post {...post} user={user} />}
             />;

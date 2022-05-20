@@ -55,9 +55,9 @@ function Dashboard({ posts, setPosts }: IProps) {
   return (
     <>
       <h1 className="text-3xl font-bold text-center m-8">Dashboard</h1>
-      {userPosts.reverse().map((post: IPost, i: number) => {
+      {userPosts.reverse().map((post: IPost) => {
         return (
-          <div className="bg-slate-200 m-6 p-4 rounded" key={i}>
+          <div className="bg-slate-200 m-6 p-4 rounded" key={post._id}>
             <img src={post.imageUrl} alt="post background" />
             <h2 className="text-2xl font-bold">{post.title}</h2>
             <p>{post.body}</p>

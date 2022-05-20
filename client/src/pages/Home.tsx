@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import bloggingSVG from "../images/blogging.svg";
 
 interface IPost {
   _id: string;
@@ -41,9 +40,9 @@ function Home({ posts }: IProps) {
       </div>
       <h2 className="text-3xl mt-12 px-12 font-semibold">Blogs</h2>
       <div className="flex mx-8">
-        {publishedPosts.map((post: IPost, i: number) => {
+        {publishedPosts.map((post: IPost) => {
           return (
-            <Link to={`/posts/${post._id}`} key={i}>
+            <Link to={`/posts/${post._id}`} key={post._id}>
               <div className="m-4 text-center border-2 rounded">
                 <img src={post.imageUrl} alt="post background" />
                 <h2 className="text-2xl font-bold">{post.title}</h2>

@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 interface IProps {
   _id: string;
   title: string;
@@ -21,6 +23,10 @@ function Post({
   imageUrl,
   user,
 }: IProps) {
+  useEffect(() => {
+    document.title = "Post | MERN Blog";
+  }, []);
+
   return <p>{title}</p>;
 }
 
