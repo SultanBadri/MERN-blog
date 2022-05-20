@@ -28,11 +28,11 @@ function Posts({ posts, setPosts }: IProps) {
   }, []);
 
   const togglePublish = (toggledPost: IPost): void => {
-    const postUrl: String = toggledPost.published ? "Unpublish" : "Publish";
+    const postUrl: String = toggledPost.published ? "unpublish" : "publish";
     axios
       .post(
-        `/api/posts/${postUrl}`,
-        { toggledPost },
+        `/api/posts/${toggledPost._id}/${postUrl}/`,
+        {},
         {
           headers: {
             "Content-Type": "application/json",

@@ -63,38 +63,30 @@ exports.getAllPosts = async (req, res, next) => {
   }
 };
 
-exports.publishPost = async (req, res, next) => {
-  try {
-    const post = await Post.findByIdAndUpdate(req.params.post_id, {
-      published: true,
+exports.publishPost = (req, res, next) => {
+  Post.findOneAndUpdate(
+    { _id: req.params.post_id },
+    { published: true },
+    { useFindAndModify: false, new: true }
+  )
+    .populate("author")
+    .exec((err, post) => {
+      if (err) return res.status(400).json(err);
+      res.json(post);
     });
-
-    if (!post) {
-      return res.status(404).json({ errors: [{ message: "Post not found" }] });
-    }
-
-    res.json(post);
-  } catch (err) {
-    return next(err);
-    res.status(500).send("Server error");
-  }
 };
 
-exports.unpublishPost = async (req, res, next) => {
-  try {
-    const post = await Post.findByIdAndUpdate(req.params.post_id, {
-      published: false,
+exports.unpublishPost = (req, res, next) => {
+  Post.findOneAndUpdate(
+    { _id: req.params.post_id },
+    { published: false },
+    { useFindAndModify: false, new: true }
+  )
+    .populate("author")
+    .exec((err, post) => {
+      if (err) return res.status(400).json(err);
+      res.json(post);
     });
-
-    if (!post) {
-      return res.status(404).json({ errors: [{ message: "Post not found" }] });
-    }
-
-    res.json(post);
-  } catch (err) {
-    return next(err);
-    res.status(500).send("Server error");
-  }
 };
 
 exports.updatePost = async (req, res, next) => {
