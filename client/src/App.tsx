@@ -52,10 +52,15 @@ function App() {
             element={<PostForm posts={posts} setPosts={setPosts} />}
           />
           <Route
-            path="/posts"
+            path="/dashboard"
             element={<Dashboard posts={posts} setPosts={setPosts} />}
           />
-          <Route path="" />
+          {posts.map((post: IPost, i: number) => {
+            <Route
+              path={`/posts/${post._id}`}
+              element={<Post {...post} user={user} />}
+            />;
+          })}
         </Routes>
       </BrowserRouter>
     </>

@@ -72,6 +72,7 @@ function PostForm({ posts, setPosts }: IProps) {
     <>
       <h1 className="text-3xl font-bold text-center">Write your own blog</h1>
       <form onSubmit={(e) => handleSubmit(e)}>
+        {/* Post title */}
         <label htmlFor="title">Title</label>
         <br />
         <input
@@ -84,6 +85,7 @@ function PostForm({ posts, setPosts }: IProps) {
           required
         />
         <br />
+        {/* Post body */}
         <label htmlFor="body">Content</label>
         <br />
         <input
@@ -96,6 +98,7 @@ function PostForm({ posts, setPosts }: IProps) {
           required
         />
         <br />
+        {/* Post image  */}
         <label htmlFor="image">Image</label>
         <br />
         <input

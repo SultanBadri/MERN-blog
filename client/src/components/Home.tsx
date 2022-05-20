@@ -43,7 +43,7 @@ function Home({ posts }: IProps) {
       <div className="flex mx-8">
         {publishedPosts.map((post: IPost, i: number) => {
           return (
-            <Link to={`/${post._id}`} key={i}>
+            <Link to={`/posts/${post._id}`} key={i}>
               <div className="m-4 text-center border-2 rounded">
                 <img src={post.imageUrl} alt="post background" />
                 <h2 className="text-2xl font-bold">{post.title}</h2>
