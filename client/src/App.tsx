@@ -43,7 +43,7 @@ function App() {
       <BrowserRouter>
         <Nav user={user} setUser={setUser} />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Home posts={posts} />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
           <Route path="/signup" element={<SignUp />} />
           <Route

@@ -1,7 +1,26 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import bloggingSVG from "../images/blogging.svg";
 
-function Home() {
+interface IPost {
+  _id: string;
+  title: string;
+  body: string;
+  author: {
+    [key: string]: any;
+  };
+  date: Date;
+  published: boolean;
+  imageUrl: string;
+}
+
+interface IProps {
+  posts: IPost[];
+}
+
+function Home({ posts }: IProps) {
+  const publishedPosts = posts.filter((post) => post.published);
+
   useEffect(() => {
     document.title = "Home | MERN Blog";
   }, []);
@@ -21,6 +40,22 @@ function Home() {
       /> */}
       </div>
       <h2 className="text-3xl mt-12 px-12 font-semibold">Blogs</h2>
+      <div className="flex mx-8">
+        {publishedPosts.map((post: IPost, i: number) => {
+          return (
+            <Link to={`/${post._id}`} key={i}>
+              <div className="m-4 text-center border-2 rounded">
+                <img src={post.imageUrl} alt="post background" />
+                <h2 className="text-2xl font-bold">{post.title}</h2>
+                <p>{`By ${post.author["username"]}`}</p>
+                <p>{`Created on ${new Date(
+                  post.date
+                ).toLocaleDateString()}`}</p>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 }
