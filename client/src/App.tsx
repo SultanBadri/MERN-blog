@@ -17,7 +17,7 @@ function App() {
     };
     date: Date;
     published: boolean;
-    // imageUrl: string;
+    imageUrl: string;
   }
 
   const [user, setUser] = useState<any>();
@@ -49,10 +49,7 @@ function App() {
             path="/create"
             element={<PostForm posts={posts} setPosts={setPosts} />}
           />
-          <Route
-            path="/posts"
-            element={<Posts posts={posts} setPosts={setPosts} />}
-          />
+          <Route path="/posts" element={<Posts posts={posts} />} />
         </Routes>
       </BrowserRouter>
     </>

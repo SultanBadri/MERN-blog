@@ -10,7 +10,7 @@ interface IPost {
   };
   date: Date;
   published: boolean;
-  // imageUrl: string;
+  imageUrl: string;
 }
 
 interface IProps {
@@ -32,7 +32,7 @@ function PostForm({ posts, setPosts }: IProps) {
   );
   const [date, setDate] = useState<string>();
   const [published, setPublished] = useState<boolean>(false);
-  // const [imageUrl, setImageUrl] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
 
   useEffect(() => {
     document.title = "Create | MERN Blog";
@@ -40,7 +40,14 @@ function PostForm({ posts, setPosts }: IProps) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    let data = JSON.stringify({ title, body, author, date, published });
+    let data = JSON.stringify({
+      title,
+      body,
+      author,
+      date,
+      published,
+      imageUrl,
+    });
     axios
       .post("/api/posts/create", data, {
         headers: {
@@ -84,6 +91,18 @@ function PostForm({ posts, setPosts }: IProps) {
           placeholder="Content"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setBody(e.target.value)
+          }
+          required
+        />
+        <br />
+        <label htmlFor="image">Image</label>
+        <br />
+        <input
+          type="text"
+          name="image"
+          placeholder="Image URL"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setImageUrl(e.target.value)
           }
           required
         />

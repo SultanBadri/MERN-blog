@@ -11,13 +11,14 @@ exports.createPost = [
       return res.json({ errors: errors.array() });
     }
 
-    const { title, body, author, date, published } = req.body;
+    const { title, body, author, date, published, imageUrl } = req.body;
     const post = new Post({
       title,
       body,
       author,
       date,
       published,
+      imageUrl,
     });
     post.save((err) => {
       if (err) {

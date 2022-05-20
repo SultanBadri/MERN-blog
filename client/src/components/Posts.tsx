@@ -8,17 +8,17 @@ interface IPost {
   };
   date: Date;
   published: boolean;
-  // imageUrl: string;
+  imageUrl: string;
 }
 
 interface IProps {
   posts: IPost[];
-  setPosts: React.Dispatch<React.SetStateAction<IPost[]>>;
 }
 
-function Posts({ posts, setPosts }: IProps) {
+function Posts({ posts }: IProps) {
   useEffect(() => {
     document.title = "My posts | MERN Blog";
+    console.log(posts);
   }, []);
 
   const userId = JSON.parse(localStorage.getItem("user")!).user._id;
@@ -27,9 +27,10 @@ function Posts({ posts, setPosts }: IProps) {
   return (
     <>
       <h1 className="text-3xl font-bold text-center m-8">My posts</h1>
-      {userPosts.map((post, i) => {
+      {userPosts.reverse().map((post, i) => {
         return (
           <div className="bg-slate-200 m-6 p-4 rounded" key={i}>
+            <img src={post.imageUrl} alt="post background" />
             <h2 className="text-2xl font-bold">{post.title}</h2>
             <p>{post.body}</p>
             <p>{`By ${post.author["username"]}`}</p>
