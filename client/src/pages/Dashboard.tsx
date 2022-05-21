@@ -64,7 +64,7 @@ function Dashboard({ posts, setPosts }: IProps) {
 
   const handleDelete = (deletePost: IPost): void => {
     axios
-      .post(`api/posts/${deletePost._id}/delete`, {}, headers)
+      .delete(`api/posts/${deletePost._id}/delete`, headers)
       .then(() => {
         setPosts((prevState) => {
           return prevState.filter((post) => post._id !== deletePost._id);
