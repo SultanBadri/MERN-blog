@@ -8,6 +8,7 @@ import SignUp from "./pages/SignUp";
 import PostForm from "./pages/PostForm";
 import Dashboard from "./pages/Dashboard";
 import Post from "./pages/Post";
+import NoPageFound from "./pages/NoPageFound";
 
 function App() {
   interface IPost {
@@ -65,6 +66,8 @@ function App() {
             element={<Post {...post} user={user} />}
           />;
         })}
+        {/* No page found */}
+        <Route path="*" element={<NoPageFound />} />
       </Routes>
     </BrowserRouter>
   );
