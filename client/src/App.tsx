@@ -59,13 +59,13 @@ function App() {
           element={<Dashboard posts={posts} setPosts={setPosts} />}
         />
         {/* Posts  */}
-        {posts.map((post: IPost) => {
+        {posts.map((post) => (
           <Route
             key={post._id}
             path={`/posts/${post._id}`}
             element={<Post {...post} user={user} />}
-          />;
-        })}
+          ></Route>
+        ))}
         {/* No page found */}
         <Route path="*" element={<NoPageFound />} />
       </Routes>
