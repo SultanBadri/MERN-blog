@@ -2,6 +2,8 @@ import axios from "axios";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { BiEdit } from "react-icons/bi";
 
 interface IPost {
   _id: string;
@@ -69,39 +71,44 @@ function Dashboard({ posts, setPosts }: IProps) {
         {userPosts.reverse().map((post: IPost) => {
           return (
             <div
-              className="border-2 m-6 p-4 rounded text-center"
+              className="border-2 m-6 p-4 rounded text-center hover:shadow-lg"
               key={post._id}
             >
               <Link to={`/posts/${post._id}`}>
-                <img src={post.imageUrl} alt="post background" />
-                <h2 className="text-2xl font-bold">{post.title}</h2>
-                <p>
-                  By <em className="text-slate-500">{post.author.username}</em>
-                </p>
+                <img src={post.imageUrl} alt="post background" width="300px" />
               </Link>
-              <p>Published: {new Date(post.date).toLocaleString()}</p>
+              <h2 className="text-1xl font-bold pt-2">{post.title}</h2>
+              <p className="text-sm">
+                By <em className="text-slate-500">{post.author.username}</em>
+              </p>
+              <p className="text-sm">
+                Published: {new Date(post.date).toLocaleString()}
+              </p>
               <button
                 onClick={() => togglePublish(post)}
-                className="px-8 py-1 mt-2 rounded border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
+                className="px-4 py-1 mt-2 rounded border text-sm border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
               >
                 {post.published ? "Unpublish" : "Publish"}
               </button>
               <br />
-              <button
-                onClick={() =>
-                  navigate(`/posts/${post._id}/update`, { state: { ...post } })
-                }
-                className="px-8 py-1 mt-2 rounded border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
-              >
-                Update
-              </button>
-              <br />
-              <button
-                onClick={() => handleDelete(post)}
-                className="px-8 py-1 mt-2 rounded border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
-              >
-                Delete
-              </button>
+              <div className="m-auto">
+                <button
+                  onClick={() =>
+                    navigate(`/posts/${post._id}/update`, {
+                      state: { ...post },
+                    })
+                  }
+                  className="px-2 py-1 mt-2 rounded border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
+                >
+                  <BiEdit />
+                </button>
+                <button
+                  onClick={() => handleDelete(post)}
+                  className="px-2 py-1 mt-2 rounded border border-red-600 text-red-600 duration-300 hover:text-white hover:bg-red-600"
+                >
+                  <RiDeleteBin6Line />
+                </button>
+              </div>
             </div>
           );
         })}

@@ -44,17 +44,19 @@ function Home({ user, posts }: IProps) {
         ) : null}
       </div>
       <h2 className="text-3xl mt-12 px-12 font-semibold">Blogs</h2>
-      <div className="flex mx-8">
+      <div className="flex flex-wrap mx-8">
         {publishedPosts.map((post: IPost) => {
           return (
             <Link to={`/posts/${post._id}`} key={post._id}>
-              <div className="m-4 text-center border-2 rounded">
+              <div className="m-4 p-4 text-center border-2 rounded hover:shadow-lg">
                 <img src={post.imageUrl} alt="post background" />
-                <h2 className="text-2xl font-bold">{post.title}</h2>
-                <p>
+                <h2 className="text-1xl font-bold pt-2">{post.title}</h2>
+                <p className="text-sm">
                   By <em className="text-slate-500">{post.author.username}</em>
                 </p>
-                <p>Published: {new Date(post.date).toLocaleString()}</p>
+                <p className="text-sm">
+                  Published: {new Date(post.date).toLocaleString()}
+                </p>
               </div>
             </Link>
           );

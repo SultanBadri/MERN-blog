@@ -40,7 +40,7 @@ function Post({
           </div>
         </div>
         <img className="w-4/5 m-auto" src={imageUrl} alt="background" />
-        <p className="text-center mt-8">{body}</p>
+        <p className="text-left mt-8 w-4/5 m-auto">{body}</p>
       </div>
     </div>
   );

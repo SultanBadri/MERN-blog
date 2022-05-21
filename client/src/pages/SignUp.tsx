@@ -89,7 +89,7 @@ function SignUp() {
               type="submit"
               className="px-8 py-1 mt-4 rounded border-2 border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
             >
-              Create
+              Sign up
             </button>
           </div>
         </form>
