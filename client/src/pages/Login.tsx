@@ -39,7 +39,7 @@ function Login({ setUser }: IProps) {
   return (
     <div className="bg-black-500 w-1/2 mt-24 absolute left-1/2 -translate-x-1/2">
       <div className="border-2 p-10 shadow-xl rounded-md">
-        <h1 className="text-purple-600 text-4xl pb-4">Log in</h1>
+        <h1 className="text-purple-600 text-3xl font-semibold pb-4">Log in</h1>
         <p>
           Don't have an account?
           <Link to="/signup" className="text-blue-500 hover:underline">
@@ -77,7 +77,14 @@ function Login({ setUser }: IProps) {
               required
             />
           </div>
-          <button type="submit">Log in</button>
+          <div className="flex items-center justify-center">
+            <button
+              type="submit"
+              className="px-8 py-1 mt-4 rounded-full border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
+            >
+              Create
+            </button>
+          </div>
         </form>
       </div>
     </div>

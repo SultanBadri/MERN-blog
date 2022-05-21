@@ -72,7 +72,7 @@ function Dashboard({ posts, setPosts }: IProps) {
               <p>Published on {new Date(post.date).toLocaleDateString()}</p>
               <button
                 onClick={() => togglePublish(post)}
-                className="bg-white text-purple-600 border border-purple-600 my-2 px-2 py-1 rounded duration-300 hover:text-white hover:bg-purple-600"
+                className="px-8 py-1 mt-2 rounded-full border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
               >
                 {post.published ? "Unpublish" : "Publish"}
               </button>
