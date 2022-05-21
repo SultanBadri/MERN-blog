@@ -27,7 +27,21 @@ function Post({
     document.title = "Post | MERN Blog";
   }, []);
 
-  return <p>{title}</p>;
+  return (
+    <div className="flex items-center justify-center">
+      <div className="text-center">
+        <img src={imageUrl} alt="background" />
+        <h1 className="text-2xl font-semibold">{title}</h1>
+        <div className="text-sm">
+          <p>
+            By <em className="text-slate-500">{author.username}</em>
+          </p>
+          <p>Published on {new Date(date).toLocaleDateString()}</p>
+        </div>
+        <p className="w-4/5 m-auto">{body}</p>
+      </div>
+    </div>
+  );
 }
 
 export default Post;

@@ -53,28 +53,34 @@ function Dashboard({ posts, setPosts }: IProps) {
   };
 
   return (
-    <>
+    <div>
       <h1 className="text-3xl font-bold text-center m-8">Dashboard</h1>
-      {userPosts.reverse().map((post: IPost) => {
-        return (
-          <Link to={`/posts/${post._id}`} key={post._id}>
-            <div className="bg-slate-200 m-6 p-4 rounded" key={post._id}>
-              <img src={post.imageUrl} alt="post background" />
-              <h2 className="text-2xl font-bold">{post.title}</h2>
-              <p>{post.body}</p>
-              <p>{`By ${post.author["username"]}`}</p>
-              <p>{`Created on ${new Date(post.date).toLocaleDateString()}`}</p>
+      <div className="flex flex-row flex-wrap mx-8">
+        {userPosts.reverse().map((post: IPost) => {
+          return (
+            <div
+              className="border-2 m-6 p-4 rounded text-center"
+              key={post._id}
+            >
+              <Link to={`/posts/${post._id}`}>
+                <img src={post.imageUrl} alt="post background" />
+                <h2 className="text-2xl font-bold">{post.title}</h2>
+                <p>
+                  By <em className="text-slate-500">{post.author.username}</em>
+                </p>
+              </Link>
+              <p>Published on {new Date(post.date).toLocaleDateString()}</p>
               <button
                 onClick={() => togglePublish(post)}
-                className="bg-white text-purple-600 my-2 px-2 py-1 rounded duration-300 hover:text-white hover:bg-purple-600"
+                className="bg-white text-purple-600 border border-purple-600 my-2 px-2 py-1 rounded duration-300 hover:text-white hover:bg-purple-600"
               >
                 {post.published ? "Unpublish" : "Publish"}
               </button>
             </div>
-          </Link>
-        );
-      })}
-    </>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 

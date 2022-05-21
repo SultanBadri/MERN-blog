@@ -29,8 +29,8 @@ function Home({ posts }: IProps) {
       <div className="bg-gray-300 py-20 px-12">
         <h1 className="text-5xl font-bold">Welcome to my blog!</h1>
         <p className="pt-4 w-96 leading-6">
-          Hi there! Welcome to my blog, where I give my thoughts on full stack
-          technologies along with other things!
+          Hi there! Welcome to my blog, where anyone can give their thoughts on
+          full stack technologies along with other things!
         </p>
         {/* <img
         src={bloggingSVG}
@@ -46,10 +46,10 @@ function Home({ posts }: IProps) {
               <div className="m-4 text-center border-2 rounded">
                 <img src={post.imageUrl} alt="post background" />
                 <h2 className="text-2xl font-bold">{post.title}</h2>
-                <p>{`By ${post.author["username"]}`}</p>
-                <p>{`Created on ${new Date(
-                  post.date
-                ).toLocaleDateString()}`}</p>
+                <p>
+                  By <em className="text-slate-500">{post.author.username}</em>
+                </p>
+                <p>Published on {new Date(post.date).toLocaleDateString()}</p>
               </div>
             </Link>
           );
