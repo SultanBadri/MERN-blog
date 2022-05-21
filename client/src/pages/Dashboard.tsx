@@ -2,8 +2,7 @@ import axios from "axios";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import UpdateForm from "./UpdateForm";
-import { Navigate } from "react-router-dom";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface IPost {
   _id: string;
@@ -25,6 +24,7 @@ interface IProps {
 }
 
 function Dashboard({ posts, setPosts, isEditing, setIsEditing }: IProps) {
+  const navigate = useNavigate();
   const userId = JSON.parse(localStorage.getItem("user")!).user._id;
   const userPosts = posts.filter((post) => userId === post.author._id);
   const headers = {
@@ -91,12 +91,9 @@ function Dashboard({ posts, setPosts, isEditing, setIsEditing }: IProps) {
               </button>
               <br />
               <button
-                onClick={() => (
-                  <Route
-                    path={`/posts/${post._id}`}
-                    element={<UpdateForm {...post} />}
-                  />
-                )}
+                onClick={() =>
+                  navigate(`/posts/${post._id}/update`, { state: { ...post } })
+                }
                 className="px-8 py-1 mt-2 rounded-full border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
               >
                 Update
