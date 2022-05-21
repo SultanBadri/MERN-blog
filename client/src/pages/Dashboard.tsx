@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import PostForm from "./PostForm";
 
 interface IPost {
   _id: string;
@@ -17,9 +18,11 @@ interface IPost {
 interface IProps {
   posts: IPost[];
   setPosts: React.Dispatch<React.SetStateAction<IPost[]>>;
+  isEditing: boolean;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Dashboard({ posts, setPosts }: IProps) {
+function Dashboard({ posts, setPosts, isEditing, setIsEditing }: IProps) {
   const userId = JSON.parse(localStorage.getItem("user")!).user._id;
   const userPosts = posts.filter((post) => userId === post.author._id);
   const headers = {
@@ -48,19 +51,6 @@ function Dashboard({ posts, setPosts }: IProps) {
       })
       .catch((err) => console.log(err.response.data));
   };
-
-  // const handleUpdate = (updatePost: IPost): void => {
-  //   axios
-  //     .post(`api/posts/${updatePost._id}/update`, {}, headers)
-  //     .then((res) => {
-  //       setPosts((prevState) => {
-  //         return prevState.map((post) =>
-  //           post._id === updatePost._id ? res.data : post
-  //         );
-  //       });
-  //     })
-  //     .catch((err) => console.log(err.response.data));
-  // };
 
   const handleDelete = (deletePost: IPost): void => {
     axios
@@ -97,13 +87,13 @@ function Dashboard({ posts, setPosts }: IProps) {
               >
                 {post.published ? "Unpublish" : "Publish"}
               </button>
-              {/* <br />
+              <br />
               <button
-                onClick={() => handleUpdate(post)}
+                onChange={() => setIsEditing(true)}
                 className="px-8 py-1 mt-2 rounded-full border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
               >
                 Update
-              </button> */}
+              </button>
               <br />
               <button
                 onClick={() => handleDelete(post)}
@@ -115,6 +105,15 @@ function Dashboard({ posts, setPosts }: IProps) {
           );
         })}
       </div>
+
+      {isEditing ? (
+        <PostForm
+          posts={posts}
+          setPosts={setPosts}
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
+        />
+      ) : null}
     </div>
   );
 }
