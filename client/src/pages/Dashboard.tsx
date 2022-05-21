@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import UpdateForm from "./UpdateForm";
 import { useNavigate } from "react-router-dom";
 
 interface IPost {
@@ -19,11 +18,9 @@ interface IPost {
 interface IProps {
   posts: IPost[];
   setPosts: React.Dispatch<React.SetStateAction<IPost[]>>;
-  isEditing: boolean;
-  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function Dashboard({ posts, setPosts, isEditing, setIsEditing }: IProps) {
+function Dashboard({ posts, setPosts }: IProps) {
   const navigate = useNavigate();
   const userId = JSON.parse(localStorage.getItem("user")!).user._id;
   const userPosts = posts.filter((post) => userId === post.author._id);
@@ -109,15 +106,6 @@ function Dashboard({ posts, setPosts, isEditing, setIsEditing }: IProps) {
           );
         })}
       </div>
-
-      {/* {isEditing ? (
-        <PostForm
-          posts={posts}
-          setPosts={setPosts}
-          isEditing={isEditing}
-          setIsEditing={setIsEditing}
-        />
-      ) : null} */}
     </div>
   );
 }

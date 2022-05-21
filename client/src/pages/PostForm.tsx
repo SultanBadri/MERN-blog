@@ -17,8 +17,6 @@ interface IPost {
 interface IProps {
   posts: IPost[];
   setPosts: React.Dispatch<React.SetStateAction<IPost[]>>;
-  isEditing: boolean;
-  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface IAuthor {
@@ -26,7 +24,7 @@ interface IAuthor {
   username: string;
 }
 
-function PostForm({ posts, setPosts, isEditing, setIsEditing }: IProps) {
+function PostForm({ posts, setPosts }: IProps) {
   const navigate = useNavigate();
   const [title, setTitle] = useState<string>("");
   const [body, setBody] = useState<string>("");

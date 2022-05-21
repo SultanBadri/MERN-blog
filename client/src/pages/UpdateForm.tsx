@@ -1,8 +1,8 @@
-import { totalmem } from "os";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-interface IProps {
+interface IPost {
   _id: string;
   title: string;
   body: string;
@@ -12,6 +12,7 @@ interface IProps {
   date: Date;
   published: boolean;
   imageUrl: string;
+  setPosts: any;
 }
 
 interface IAuthor {
@@ -27,14 +28,15 @@ function UpdateForm({
   date,
   published,
   imageUrl,
-}: IProps) {
+  setPosts,
+}: IPost) {
   const navigate = useNavigate();
   const [postTitle, setPostTitle] = useState<string>(title);
   const [postBody, setPostBody] = useState<string>(body);
   const [postAuthor, setPostAuthor] = useState<IAuthor>(
     JSON.parse(localStorage.getItem("user")!).user
   );
-  const [postDate, setPostDate] = useState<string>();
+  const [postDate, setPostDate] = useState<any>();
   const [postPublished, setPostPublished] = useState<boolean>(published);
   const [postImageUrl, setPostImageUrl] = useState<string>(imageUrl);
 
@@ -42,7 +44,44 @@ function UpdateForm({
     document.title = "Update | MERN Blog";
   }, []);
 
-  const handleUpdate = (e: React.FormEvent<HTMLFormElement>): void => {};
+  const handleUpdate = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    title = postTitle;
+    body = postBody;
+    author = postAuthor;
+    date = postDate;
+    published = postPublished;
+    imageUrl = postImageUrl;
+    let data = JSON.stringify({
+      title,
+      body,
+      author,
+      date,
+      published,
+      imageUrl,
+    });
+    axios
+      .put(`/api/posts/${_id}/update`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `bearer ${
+            JSON.parse(localStorage.getItem("user")!).token
+          }`,
+        },
+      })
+      .then((res) => {
+        setPosts((prevState: IPost[]) => {
+          return prevState.map((post: IPost) =>
+            _id === post._id ? res.data : post
+          );
+        });
+        axios.get("/api/posts").then((res) => {
+          setPosts(res.data);
+        });
+        navigate("/");
+      })
+      .catch((err) => console.log(err.response.data));
+  };
 
   return (
     <>
@@ -59,6 +98,7 @@ function UpdateForm({
               type="text"
               name="title"
               placeholder="Title"
+              value={postTitle}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setPostTitle(e.target.value)
               }
@@ -72,6 +112,7 @@ function UpdateForm({
               type="text"
               name="body"
               placeholder="Content"
+              value={postBody}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setPostBody(e.target.value)
               }
@@ -85,6 +126,7 @@ function UpdateForm({
               type="text"
               name="image"
               placeholder="Image URL"
+              value={postImageUrl}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setPostImageUrl(e.target.value)
               }
@@ -93,7 +135,7 @@ function UpdateForm({
             <br />
             <div className="flex items-center justify-center">
               <button className="px-8 py-1 mt-4 rounded-full border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600">
-                Create
+                Update
               </button>
             </div>
           </form>

@@ -3,7 +3,7 @@ const { body, validationResult } = require("express-validator");
 
 exports.createPost = [
   body("title", "Empty name").trim().escape(),
-  body("body", "text").trim().escape(),
+  body("body", "Empty body").trim().escape(),
 
   function (req, res, next) {
     const errors = validationResult(req);
@@ -91,11 +91,13 @@ exports.unpublishPost = (req, res, next) => {
 
 exports.updatePost = async (req, res, next) => {
   try {
-    const { title, body, date, imageUrl } = req.body;
+    const { title, body, author, date, published, imageUrl } = req.body;
     const post = await Post.findByIdAndUpdate(req.params.post_id, {
       title,
       body,
+      author,
       date,
+      published,
       imageUrl,
     });
 

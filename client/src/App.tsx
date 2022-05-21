@@ -26,7 +26,6 @@ function App() {
 
   const [user, setUser] = useState<any>();
   const [posts, setPosts] = useState<IPost[]>([]);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   useEffect(() => {
     // make sure user is still logged in
@@ -54,25 +53,11 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
         <Route
           path="/create"
-          element={
-            <PostForm
-              posts={posts}
-              setPosts={setPosts}
-              isEditing={isEditing}
-              setIsEditing={setIsEditing}
-            />
-          }
+          element={<PostForm posts={posts} setPosts={setPosts} />}
         />
         <Route
           path="/dashboard"
-          element={
-            <Dashboard
-              posts={posts}
-              setPosts={setPosts}
-              isEditing={isEditing}
-              setIsEditing={setIsEditing}
-            />
-          }
+          element={<Dashboard posts={posts} setPosts={setPosts} />}
         />
         {/* Posts  */}
         {posts.map((post) => (
@@ -86,7 +71,7 @@ function App() {
           <Route
             key={post._id}
             path={`/posts/${post._id}/update`}
-            element={<UpdateForm {...post} />}
+            element={<UpdateForm {...post} setPosts={setPosts} />}
           />
         ))}
         {/* No page found */}
