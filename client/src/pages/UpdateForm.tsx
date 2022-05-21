@@ -102,6 +102,7 @@ function UpdateForm({
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setPostTitle(e.target.value)
               }
+              className="w-full mb-4 text-gray-900 text-base leading-5 h-8 rounded bg-gray-100 py-1 px-2 duration-100 border-2 shadow-sm outline-0 focus:border-purple-400"
               required
             />
             <br />
@@ -116,6 +117,7 @@ function UpdateForm({
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setPostBody(e.target.value)
               }
+              className="w-full mb-4 text-gray-900 text-base leading-5 h-8 rounded bg-gray-100 py-1 px-2 duration-100 border-2 shadow-sm outline-0 focus:border-purple-400"
               required
             />
             <br />
@@ -130,11 +132,12 @@ function UpdateForm({
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setPostImageUrl(e.target.value)
               }
+              className="w-full mb-4 text-gray-900 text-base leading-5 h-8 rounded bg-gray-100 py-1 px-2 duration-100 border-2 shadow-sm outline-0 focus:border-purple-400"
               required
             />
             <br />
-            <div className="flex items-center justify-center">
-              <button className="px-8 py-1 mt-4 rounded-full border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600">
+            <div>
+              <button className="px-8 py-1 mt-4 rounded border-2 border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600">
                 Update
               </button>
             </div>

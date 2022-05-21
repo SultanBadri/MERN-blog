@@ -14,10 +14,11 @@ interface IPost {
 }
 
 interface IProps {
+  user: any;
   posts: IPost[];
 }
 
-function Home({ posts }: IProps) {
+function Home({ user, posts }: IProps) {
   const publishedPosts = posts.filter((post) => post.published);
 
   useEffect(() => {
@@ -32,11 +33,15 @@ function Home({ posts }: IProps) {
           Hi there! Welcome to my blog, where anyone can give their thoughts on
           full stack technologies along with other things!
         </p>
-        {/* <img
-        src={bloggingSVG}
-        alt="blog"
-        className="flex items-center justify-center"
-      /> */}
+        {!user ? (
+          <div>
+            <Link to="/signup">
+              <button className="px-8 py-1 mt-4 rounded border-2 border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600">
+                Sign up
+              </button>
+            </Link>
+          </div>
+        ) : null}
       </div>
       <h2 className="text-3xl mt-12 px-12 font-semibold">Blogs</h2>
       <div className="flex mx-8">

@@ -82,7 +82,7 @@ function Dashboard({ posts, setPosts }: IProps) {
               <p>Published: {new Date(post.date).toLocaleString()}</p>
               <button
                 onClick={() => togglePublish(post)}
-                className="px-8 py-1 mt-2 rounded-full border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
+                className="px-8 py-1 mt-2 rounded border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
               >
                 {post.published ? "Unpublish" : "Publish"}
               </button>
@@ -91,14 +91,14 @@ function Dashboard({ posts, setPosts }: IProps) {
                 onClick={() =>
                   navigate(`/posts/${post._id}/update`, { state: { ...post } })
                 }
-                className="px-8 py-1 mt-2 rounded-full border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
+                className="px-8 py-1 mt-2 rounded border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
               >
                 Update
               </button>
               <br />
               <button
                 onClick={() => handleDelete(post)}
-                className="px-8 py-1 mt-2 rounded-full border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
+                className="px-8 py-1 mt-2 rounded border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
               >
                 Delete
               </button>
