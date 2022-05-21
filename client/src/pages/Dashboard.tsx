@@ -22,6 +22,14 @@ interface IProps {
 function Dashboard({ posts, setPosts }: IProps) {
   const userId = JSON.parse(localStorage.getItem("user")!).user._id;
   const userPosts = posts.filter((post) => userId === post.author._id);
+  const headers = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${
+        JSON.parse(localStorage.getItem("user")!).token
+      }`,
+    },
+  };
 
   useEffect(() => {
     document.title = "Dashboard | MERN Blog";
@@ -30,23 +38,36 @@ function Dashboard({ posts, setPosts }: IProps) {
   const togglePublish = (toggledPost: IPost): void => {
     const postUrl: String = toggledPost.published ? "unpublish" : "publish";
     axios
-      .post(
-        `/api/posts/${toggledPost._id}/${postUrl}/`,
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `bearer ${
-              JSON.parse(localStorage.getItem("user")!).token
-            }`,
-          },
-        }
-      )
+      .post(`/api/posts/${toggledPost._id}/${postUrl}/`, {}, headers)
       .then((res) => {
         setPosts((prevState) => {
           return prevState.map((post) =>
             post._id === toggledPost._id ? res.data : post
           );
+        });
+      })
+      .catch((err) => console.log(err.response.data));
+  };
+
+  // const handleUpdate = (updatePost: IPost): void => {
+  //   axios
+  //     .post(`api/posts/${updatePost._id}/update`, {}, headers)
+  //     .then((res) => {
+  //       setPosts((prevState) => {
+  //         return prevState.map((post) =>
+  //           post._id === updatePost._id ? res.data : post
+  //         );
+  //       });
+  //     })
+  //     .catch((err) => console.log(err.response.data));
+  // };
+
+  const handleDelete = (deletePost: IPost): void => {
+    axios
+      .post(`api/posts/${deletePost._id}/delete`, {}, headers)
+      .then(() => {
+        setPosts((prevState) => {
+          return prevState.filter((post) => post._id !== deletePost._id);
         });
       })
       .catch((err) => console.log(err.response.data));
@@ -75,6 +96,20 @@ function Dashboard({ posts, setPosts }: IProps) {
                 className="px-8 py-1 mt-2 rounded-full border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
               >
                 {post.published ? "Unpublish" : "Publish"}
+              </button>
+              {/* <br />
+              <button
+                onClick={() => handleUpdate(post)}
+                className="px-8 py-1 mt-2 rounded-full border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
+              >
+                Update
+              </button> */}
+              <br />
+              <button
+                onClick={() => handleDelete(post)}
+                className="px-8 py-1 mt-2 rounded-full border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
+              >
+                Delete
               </button>
             </div>
           );

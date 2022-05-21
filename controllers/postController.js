@@ -91,10 +91,10 @@ exports.unpublishPost = (req, res, next) => {
 
 exports.updatePost = async (req, res, next) => {
   try {
-    const { title, content, date, imageUrl } = req.body;
+    const { title, body, date, imageUrl } = req.body;
     const post = await Post.findByIdAndUpdate(req.params.post_id, {
       title,
-      content,
+      body,
       date,
       imageUrl,
     });
