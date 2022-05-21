@@ -28,17 +28,19 @@ function Post({
   }, []);
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="text-center">
-        <img src={imageUrl} alt="background" />
-        <h1 className="text-2xl font-semibold">{title}</h1>
-        <div className="text-sm">
-          <p>
-            By <em className="text-slate-500">{author.username}</em>
-          </p>
-          <p>Published on {new Date(date).toLocaleDateString()}</p>
+    <div className="flex items-center justify-center bg-zinc-100">
+      <div className="text-center w-3/4 h-screen x-10 bg-white">
+        <div className="my-8">
+          <h1 className="text-4xl font-semibold">{title}</h1>
+          <div className="text-sm">
+            <p className="my-2">
+              By <em className="text-slate-500">{author.username}</em>
+            </p>
+            <p>Published on {new Date(date).toLocaleString()}</p>
+          </div>
         </div>
-        <p className="w-4/5 m-auto">{body}</p>
+        <img className="w-4/5 m-auto" src={imageUrl} alt="background" />
+        <p className="text-center mt-8">{body}</p>
       </div>
     </div>
   );

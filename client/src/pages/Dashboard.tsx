@@ -79,7 +79,7 @@ function Dashboard({ posts, setPosts }: IProps) {
                   By <em className="text-slate-500">{post.author.username}</em>
                 </p>
               </Link>
-              <p>Published on {new Date(post.date).toLocaleDateString()}</p>
+              <p>Published: {new Date(post.date).toLocaleString()}</p>
               <button
                 onClick={() => togglePublish(post)}
                 className="px-8 py-1 mt-2 rounded-full border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"

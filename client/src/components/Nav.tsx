@@ -12,19 +12,23 @@ function Nav({ user, setUser }: IProps) {
   };
 
   return (
-    <div className="shadow-md py-6 px-12 flex justify-between items-center">
+    <div className="shadow-md py-6 px-12 flex justify-between items-center border-2 border-b-purple-600">
       <Link to="/">
         <h2 className="text-3xl text-purple-600 font-semibold">My Blog</h2>
       </Link>
       <ul className="flex">
         <Link to="/login" hidden={user ? true : false}>
-          <li className="px-2 duration-300 hover:text-purple-600">Log in</li>
+          <li className="px-2 mx-2 text-white bg-purple-600 rounded duration-200 hover:bg-purple-700">
+            Log in
+          </li>
         </Link>
         <Link to="/signup" hidden={user ? true : false}>
           <li className="px-2 hover:text-purple-600">Sign up</li>
         </Link>
         <Link to="/" hidden={user ? false : true}>
-          <li className="px-2 hover:text-purple-600">Home</li>
+          <li className="px-2 mx-2 text-white bg-purple-600 rounded duration-200 hover:bg-purple-700">
+            Home
+          </li>
         </Link>
         <Link to="/dashboard" hidden={user ? false : true}>
           <li className="px-2 hover:text-purple-600">Dashboard</li>

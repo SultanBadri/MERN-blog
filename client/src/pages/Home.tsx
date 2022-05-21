@@ -49,7 +49,7 @@ function Home({ posts }: IProps) {
                 <p>
                   By <em className="text-slate-500">{post.author.username}</em>
                 </p>
-                <p>Published on {new Date(post.date).toLocaleDateString()}</p>
+                <p>Published: {new Date(post.date).toLocaleString()}</p>
               </div>
             </Link>
           );
