@@ -1,7 +1,9 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import PostForm from "./PostForm";
+import UpdateForm from "./UpdateForm";
+import { Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 interface IPost {
   _id: string;
@@ -89,7 +91,12 @@ function Dashboard({ posts, setPosts, isEditing, setIsEditing }: IProps) {
               </button>
               <br />
               <button
-                onChange={() => setIsEditing(true)}
+                onClick={() => (
+                  <Route
+                    path={`/posts/${post._id}`}
+                    element={<UpdateForm {...post} />}
+                  />
+                )}
                 className="px-8 py-1 mt-2 rounded-full border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
               >
                 Update
@@ -106,14 +113,14 @@ function Dashboard({ posts, setPosts, isEditing, setIsEditing }: IProps) {
         })}
       </div>
 
-      {isEditing ? (
+      {/* {isEditing ? (
         <PostForm
           posts={posts}
           setPosts={setPosts}
           isEditing={isEditing}
           setIsEditing={setIsEditing}
         />
-      ) : null}
+      ) : null} */}
     </div>
   );
 }

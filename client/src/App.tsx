@@ -9,6 +9,7 @@ import PostForm from "./pages/PostForm";
 import Dashboard from "./pages/Dashboard";
 import Post from "./pages/Post";
 import NoPageFound from "./pages/NoPageFound";
+import UpdateForm from "./pages/UpdateForm";
 
 function App() {
   interface IPost {
@@ -79,6 +80,13 @@ function App() {
             key={post._id}
             path={`/posts/${post._id}`}
             element={<Post {...post} user={user} />}
+          />
+        ))}
+        {posts.map((post) => (
+          <Route
+            key={post._id}
+            path={`/posts/${post._id}/update`}
+            element={<UpdateForm {...post} />}
           />
         ))}
         {/* No page found */}
