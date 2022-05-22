@@ -1,32 +1,24 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport");
+const verifyToken = require("../config/verifyToken");
 const commentController = require("../controllers/commentController");
 
 // GET all comments
 router.get("/", commentController.getAllComments);
 
 // GET one comment
-router.get(":comment_id", commentController.getOneComment);
+router.get("/:comment_id", commentController.getOneComment);
 
 // POST create comment
-router.post(
-  "/create",
-  passport.authenticate("jwt", { session: false }),
-  commentController.createComment
-);
+router.post("/create", verifyToken, commentController.createComment);
 
 // PUT update comment
-router.put(
-  "/:comment_id",
-  passport.authenticate("jwt", { session: false }),
-  commentController.updateComment
-);
+router.put("/:comment_id/update", verifyToken, commentController.updateComment);
 
 // DELETE delete comment
 router.delete(
-  "/:comment_id",
-  passport.authenticate("jwt", { session: false }),
+  "/:comment_id/delete",
+  verifyToken,
   commentController.deleteComment
 );
 

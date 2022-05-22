@@ -1,4 +1,6 @@
-import { useEffect } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import CommentsForm from "../components/CommentsForm";
 
 interface IProps {
   _id: string;
@@ -13,6 +15,13 @@ interface IProps {
   user: any;
 }
 
+interface IComment {
+  username: string;
+  text: string;
+  postId: string;
+  date: Date;
+}
+
 function Post({
   _id,
   title,
@@ -23,6 +32,8 @@ function Post({
   imageUrl,
   user,
 }: IProps) {
+  const [comments, setComments] = useState<IComment[]>();
+
   useEffect(() => {
     document.title = "Post | MERN Blog";
   }, []);
@@ -41,6 +52,12 @@ function Post({
         </div>
         <img className="w-4/5 m-auto" src={imageUrl} alt="background" />
         <p className="text-left mt-8 w-4/5 m-auto">{body}</p>
+        <div className="mt-8 w-4/5 m-auto text-left">
+          <p className="border-b border-b-black mb-2 font-semibold">
+            Comments ({comments ? comments.length : 0})
+          </p>
+          <CommentsForm />
+        </div>
       </div>
     </div>
   );
