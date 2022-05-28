@@ -78,11 +78,8 @@ function Dashboard({ posts, setPosts }: IProps) {
                 <img src={post.imageUrl} alt="post background" width="300px" />
               </Link>
               <h2 className="text-1xl font-bold pt-2">{post.title}</h2>
-              <p className="text-sm">
-                By <em className="text-slate-500">{post.author.username}</em>
-              </p>
-              <p className="text-sm">
-                Published: {new Date(post.date).toLocaleString()}
+              <p className="text-sm py-2">
+                Created: {new Date(post.date).toLocaleString()}
               </p>
               <button
                 onClick={() => togglePublish(post)}

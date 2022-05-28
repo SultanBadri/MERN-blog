@@ -94,16 +94,17 @@ function PostForm({ posts, setPosts }: IProps) {
               {/* Post body */}
               <label htmlFor="body">Content</label>
               <br />
-              <input
-                type="text"
+              <textarea
                 name="body"
                 placeholder="Content"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                   setBody(e.target.value)
                 }
-                className="w-full mb-4 text-gray-900 text-base leading-5 h-8 rounded bg-gray-100 py-1 px-2 duration-100 border-2 shadow-sm outline-0 focus:border-purple-400"
+                className="w-full mb-4 text-gray-900 text-base leading-5 h-40
+                rounded bg-gray-100 py-1 px-2 duration-100 border-2 shadow-sm
+                outline-0 focus:border-purple-400 resize-none"
                 required
-              />
+              ></textarea>
               <br />
               {/* Post image  */}
               <label htmlFor="image">Image</label>
