@@ -66,7 +66,7 @@ exports.getAllPosts = async (req, res, next) => {
 exports.publishPost = (req, res, next) => {
   Post.findOneAndUpdate(
     { _id: req.params.post_id },
-    { published: true },
+    { published: true, date: new Date() },
     { useFindAndModify: false, new: true }
   )
     .populate("author")

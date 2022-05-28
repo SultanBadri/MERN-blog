@@ -83,7 +83,7 @@ function Dashboard({ posts, setPosts }: IProps) {
               </Link>
               <h2 className="text-1xl font-bold pt-2">{post.title}</h2>
               <p className="text-sm py-2">
-                Last updated: {new Date(post.date).toLocaleString()}
+                Published: {new Date(post.date).toLocaleString()}
               </p>
               <button
                 onClick={() => togglePublish(post)}
