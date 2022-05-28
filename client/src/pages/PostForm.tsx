@@ -35,10 +35,6 @@ function PostForm({ posts, setPosts }: IProps) {
   const [published, setPublished] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>("");
 
-  useEffect(() => {
-    document.title = "Create | MERN Blog";
-  }, []);
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     let data = JSON.stringify({
@@ -67,6 +63,10 @@ function PostForm({ posts, setPosts }: IProps) {
       })
       .catch((err) => console.log(err.response.data));
   };
+
+  useEffect(() => {
+    document.title = "Create | MERN Blog";
+  }, []);
 
   return (
     <>

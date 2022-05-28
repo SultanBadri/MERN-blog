@@ -36,13 +36,9 @@ function UpdateForm({
   const [postAuthor, setPostAuthor] = useState<IAuthor>(
     JSON.parse(localStorage.getItem("user")!).user
   );
-  const [postDate, setPostDate] = useState<any>();
+  const [postDate, setPostDate] = useState<any>(new Date());
   const [postPublished, setPostPublished] = useState<boolean>(published);
   const [postImageUrl, setPostImageUrl] = useState<string>(imageUrl);
-
-  useEffect(() => {
-    document.title = "Update | MERN Blog";
-  }, []);
 
   const handleUpdate = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
@@ -82,6 +78,10 @@ function UpdateForm({
       })
       .catch((err) => console.log(err.response.data));
   };
+
+  useEffect(() => {
+    document.title = "Update | MERN Blog";
+  }, []);
 
   return (
     <>

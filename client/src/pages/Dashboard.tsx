@@ -35,10 +35,6 @@ function Dashboard({ posts, setPosts }: IProps) {
     },
   };
 
-  useEffect(() => {
-    document.title = "Dashboard | MERN Blog";
-  }, []);
-
   const togglePublish = (toggledPost: IPost): void => {
     const postUrl: String = toggledPost.published ? "unpublish" : "publish";
     axios
@@ -64,6 +60,10 @@ function Dashboard({ posts, setPosts }: IProps) {
       .catch((err) => console.log(err.response.data));
   };
 
+  useEffect(() => {
+    document.title = "Dashboard | MERN Blog";
+  }, []);
+
   return (
     <div>
       <h1 className="text-3xl font-bold text-center m-8">Dashboard</h1>
@@ -75,11 +75,15 @@ function Dashboard({ posts, setPosts }: IProps) {
               key={post._id}
             >
               <Link to={`/posts/${post._id}`}>
-                <img src={post.imageUrl} alt="post background" width="300px" />
+                <img
+                  src={post.imageUrl}
+                  className="flex items-center justify-center w-80 h-48"
+                  alt="post background"
+                />
               </Link>
               <h2 className="text-1xl font-bold pt-2">{post.title}</h2>
               <p className="text-sm py-2">
-                Created: {new Date(post.date).toLocaleString()}
+                Last updated: {new Date(post.date).toLocaleString()}
               </p>
               <button
                 onClick={() => togglePublish(post)}

@@ -51,7 +51,7 @@ function Home({ user, posts }: IProps) {
               <div className="m-4 p-4 text-center border-2 rounded hover:shadow-lg">
                 <img
                   src={post.imageUrl}
-                  className="flex items-center justify-center w-80"
+                  className="flex items-center justify-center w-80 h-48"
                   alt="post background"
                 />
                 <h2 className="text-1xl font-bold pt-2">{post.title}</h2>
@@ -59,7 +59,7 @@ function Home({ user, posts }: IProps) {
                   By <em className="text-slate-500">{post.author.username}</em>
                 </p>
                 <p className="text-sm">
-                  Created: {new Date(post.date).toLocaleString()}
+                  Published: {new Date(post.date).toLocaleString()}
                 </p>
               </div>
             </Link>
