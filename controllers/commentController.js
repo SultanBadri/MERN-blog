@@ -12,11 +12,11 @@ exports.createComment = [
     }
 
     try {
-      const { user, text } = req.body;
+      const { user, text, postId } = req.body;
       const comment = await new Comment({
         user,
         text,
-        postId: req.params.postId,
+        postId,
       });
       res.json(comment);
     } catch (err) {

@@ -10,7 +10,7 @@ router.get("/", commentController.getAllComments);
 router.get("/:comment_id", commentController.getOneComment);
 
 // POST create comment
-router.post("/create", verifyToken, commentController.createComment);
+router.post("/", commentController.createComment);
 
 // PUT update comment
 router.put("/:comment_id/update", verifyToken, commentController.updateComment);

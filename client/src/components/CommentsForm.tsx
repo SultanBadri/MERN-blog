@@ -1,12 +1,34 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-function CommentsForm() {
+interface IComment {
+  username: string;
+  text: string;
+  postId: string;
+  date: Date;
+}
+
+interface IProps {
+  postId: string;
+  setComments: React.Dispatch<React.SetStateAction<IComment[]>>;
+}
+
+function CommentsForm({ postId, setComments }: IProps) {
   const [username, setUsername] = useState<string>();
   const [text, setText] = useState<string>();
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    axios
+      .post(`/api/posts/${postId}/comments`, { username, text, postId }, {})
+      .then((res) => {
+        setComments((prevState) => [res.data, ...prevState]);
+      })
+      .catch((err) => console.log(err.response.data));
+  };
+
   return (
-    <form>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <label htmlFor="username">Username</label>
       <br />
       <input

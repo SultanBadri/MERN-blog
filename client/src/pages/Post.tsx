@@ -32,11 +32,19 @@ function Post({
   imageUrl,
   user,
 }: IProps) {
-  const [comments, setComments] = useState<IComment[]>();
+  const postId = _id;
+  const [comments, setComments] = useState<IComment[]>([]);
 
   useEffect(() => {
     document.title = "Post | MERN Blog";
-  }, []);
+
+    axios
+      .get(`/api/posts/${postId}/comments`)
+      .then((res) => {
+        setComments(res.data);
+      })
+      .catch((err) => console.log(err.response.data));
+  }, [postId]);
 
   return (
     <div className="flex items-center justify-center bg-zinc-100">
@@ -56,7 +64,7 @@ function Post({
           <p className="border-b border-b-black mb-2 font-semibold">
             Comments ({comments ? comments.length : 0})
           </p>
-          <CommentsForm />
+          <CommentsForm postId={postId} setComments={setComments} />
         </div>
       </div>
     </div>
