@@ -65,6 +65,13 @@ function Post({
             Comments ({comments ? comments.length : 0})
           </p>
           <CommentsForm postId={postId} setComments={setComments} />
+          {comments.map((comment: IComment, i: number) => {
+            return (
+              <div key={i}>
+                <p>test</p>;
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

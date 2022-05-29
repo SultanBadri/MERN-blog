@@ -17,6 +17,7 @@ exports.createComment = [
         user,
         text,
         postId,
+        date: new Date(),
       });
       res.json(comment);
     } catch (err) {

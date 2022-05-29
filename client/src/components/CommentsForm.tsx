@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface IComment {
   username: string;
@@ -14,15 +15,28 @@ interface IProps {
 }
 
 function CommentsForm({ postId, setComments }: IProps) {
+  const navigate = useNavigate();
   const [username, setUsername] = useState<string>();
   const [text, setText] = useState<string>();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     axios
-      .post(`/api/posts/${postId}/comments`, { username, text, postId }, {})
+      .post(
+        `/api/posts/${postId}/comments`,
+        { username, text, postId },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `bearer ${
+              JSON.parse(localStorage.getItem("user")!).token
+            }`,
+          },
+        }
+      )
       .then((res) => {
         setComments((prevState) => [res.data, ...prevState]);
+        navigate("/");
       })
       .catch((err) => console.log(err.response.data));
   };
