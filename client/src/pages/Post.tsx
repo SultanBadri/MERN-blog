@@ -48,8 +48,8 @@ function Post({
   }, [postId]);
 
   return (
-    <div className="flex items-center justify-center bg-zinc-100">
-      <div className="text-center w-3/4 h-screen x-10 bg-white">
+    <div className="flex items-center justify-center bg-purple-100">
+      <div className="text-center w-3/4 x-10 bg-white">
         <div className="my-8">
           <h1 className="text-4xl font-semibold">{title}</h1>
           <div className="text-sm">
@@ -61,7 +61,7 @@ function Post({
         </div>
         <img className="w-4/5 m-auto" src={imageUrl} alt="background" />
         <p className="text-left mt-8 w-4/5 m-auto">{body}</p>
-        <div className="mt-8 w-4/5 m-auto text-left">
+        <div className="my-8 w-4/5 m-auto text-left">
           <p className="border-b border-b-black mb-2 font-semibold">
             Comments ({comments ? comments.length : 0})
           </p>

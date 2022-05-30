@@ -40,10 +40,19 @@ exports.getOneComment = async (req, res, next) => {
   }
 };
 
-// get all comments
+// get all comments for a post
 exports.getAllComments = async (req, res, next) => {
   try {
     const comments = await Comment.find();
+
+    if (!comments) {
+      return res.status(404).json({
+        errors: [
+          { message: `Comments for post ${req.params.post_id} were not found` },
+        ],
+      });
+    }
+
     res.json(comments);
   } catch (err) {
     return next(err);

@@ -15,10 +15,15 @@ function Comments({ comments }: IProps) {
       <div>
         {comments.map((comment: IComment, i: number) => {
           return (
-            <div key={i}>
-              <h3>{comment.username}</h3>
+            <div
+              key={i}
+              className="p-2 my-4 border rounded shadow-sm hover:shadow-lg"
+            >
+              <div className="flex justify-between">
+                <h3 className="font-semibold">{comment.username}</h3>
+                <p>{new Date(comment.date).toLocaleString()}</p>
+              </div>
               <p>{comment.text}</p>
-              <p>Published on {new Date(comment.date).toLocaleString()}</p>
             </div>
           );
         })}
