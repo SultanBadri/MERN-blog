@@ -66,6 +66,7 @@ function Post({
             Comments ({comments ? comments.length : 0})
           </p>
           <CommentsForm
+            user={user}
             postId={postId}
             comments={comments}
             setComments={setComments}

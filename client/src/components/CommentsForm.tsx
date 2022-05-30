@@ -1,7 +1,6 @@
 import axios from "axios";
-import React from "react";
-import { useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useState } from "react";
 
 interface IComment {
   username: string;
@@ -11,14 +10,14 @@ interface IComment {
 }
 
 interface IProps {
+  user: any;
   postId: string;
   comments: IComment[];
   setComments: React.Dispatch<React.SetStateAction<IComment[]>>;
 }
 
-function CommentsForm({ postId, comments, setComments }: IProps) {
+function CommentsForm({ user, postId, comments, setComments }: IProps) {
   const formRef = React.useRef() as React.MutableRefObject<HTMLFormElement>;
-  const navigate = useNavigate();
   const [username, setUsername] = useState<string>();
   const [text, setText] = useState<string>();
 
@@ -27,7 +26,7 @@ function CommentsForm({ postId, comments, setComments }: IProps) {
     axios
       .post(`/api/posts/${postId}/comments`, { username, text, postId })
       .then((res) => {
-        setComments([res.data, ...comments]);
+        setComments([...comments, res.data]);
         axios.get(`/api/posts/${postId}/comments`).then((res) => {
           setComments(res.data);
         });
@@ -36,14 +35,23 @@ function CommentsForm({ postId, comments, setComments }: IProps) {
     formRef.current?.reset();
   };
 
+  useEffect(() => {
+    if (user)
+      setUsername(JSON.parse(localStorage.getItem("user")!).user.username);
+  }, [user]);
+
   return (
     <form ref={formRef} onSubmit={(e) => handleSubmit(e)}>
+      {/* Username  */}
       <label htmlFor="username">Username</label>
       <br />
       <input
         type="text"
         name="username"
         placeholder="Username"
+        defaultValue={
+          user ? JSON.parse(localStorage.getItem("user")!).user.username : ""
+        }
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setUsername(e.target.value)
         }
@@ -51,6 +59,7 @@ function CommentsForm({ postId, comments, setComments }: IProps) {
         required
       />
       <br />
+      {/* Text */}
       <label htmlFor="text">Text</label>
       <br />
       <input
