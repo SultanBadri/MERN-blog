@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const verifyToken = require("../config/verifyToken");
 const postController = require("../controllers/postController");
+const commentController = require("../controllers/commentController");
 
 // GET all posts
 router.get("/", postController.getAllPosts);
@@ -23,5 +24,28 @@ router.put("/:post_id/update", verifyToken, postController.updatePost);
 
 // DELETE delete post
 router.delete("/:post_id/delete", verifyToken, postController.deletePost);
+
+// GET all comments
+router.get("/:post_id/comments", commentController.getAllPostComments);
+
+// GET one comment
+router.get("/:post_id/comments/:comment_id", commentController.getOneComment);
+
+// POST create comment
+router.post("/:post_id/comments", commentController.createComment);
+
+// PUT update comment
+router.put(
+  "/:post_id/comments/:comment_id/update",
+  verifyToken,
+  commentController.updateComment
+);
+
+// DELETE delete comment
+router.delete(
+  "/:post_id/comments/:comment_id/delete",
+  verifyToken,
+  commentController.deleteComment
+);
 
 module.exports = router;

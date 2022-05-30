@@ -40,10 +40,9 @@ exports.getOneComment = async (req, res, next) => {
   }
 };
 
-// get all comments for a post
-exports.getAllComments = async (req, res, next) => {
+exports.getAllPostComments = async (req, res, next) => {
   try {
-    const comments = await Comment.find();
+    const comments = await Comment.find({ postId: req.params.post_id });
 
     if (!comments) {
       return res.status(404).json({
@@ -52,7 +51,6 @@ exports.getAllComments = async (req, res, next) => {
         ],
       });
     }
-
     res.json(comments);
   } catch (err) {
     return next(err);
