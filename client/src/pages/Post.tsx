@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import Comments from "../components/Comments";
 import CommentsForm from "../components/CommentsForm";
 
 interface IProps {
@@ -64,14 +65,12 @@ function Post({
           <p className="border-b border-b-black mb-2 font-semibold">
             Comments ({comments ? comments.length : 0})
           </p>
-          <CommentsForm postId={postId} setComments={setComments} />
-          {comments.map((comment: IComment, i: number) => {
-            return (
-              <div key={i}>
-                <p>test</p>;
-              </div>
-            );
-          })}
+          <CommentsForm
+            postId={postId}
+            comments={comments}
+            setComments={setComments}
+          />
+          <Comments comments={comments} />
         </div>
       </div>
     </div>

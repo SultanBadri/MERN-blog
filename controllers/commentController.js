@@ -1,31 +1,27 @@
 const Comment = require("../models/comment");
 const { body, validationResult } = require("express-validator");
 
-exports.createComment = [
-  body("user", "Empty user").trim().isLength({ min: 1 }).escape(),
-  body("text", "Empty text").trim().isLength({ min: 1 }).escape,
-
-  async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.json({ errors: errors.array() });
+// create comment
+exports.createComment = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  try {
+    const comment = new Comment({
+      username: req.body.username,
+      text: req.body.text,
+      postId: req.body.postId,
+    });
+    const newComment = await comment.save();
+    res.status(201).json(newComment);
+  } catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
     }
-
-    try {
-      const { user, text, postId } = req.body;
-      const comment = await new Comment({
-        user,
-        text,
-        postId,
-        date: new Date(),
-      });
-      res.json(comment);
-    } catch (err) {
-      return next(err);
-      res.status(500).send("Server error");
-    }
-  },
-];
+    next(err);
+  }
+};
 
 exports.getOneComment = async (req, res, next) => {
   try {
@@ -44,20 +40,11 @@ exports.getOneComment = async (req, res, next) => {
   }
 };
 
+// get all comments
 exports.getAllComments = async (req, res, next) => {
   try {
-    const allComments = await Comment.find().sort([["date", "descending"]]);
-    const commentsUnderPost = allComments.filter(
-      (comment) => comment.postId === req.params.post_id
-    );
-
-    if (!commentsUnderPost) {
-      return res
-        .status(404)
-        .json({ errors: [{ message: `Comments not found` }] });
-    }
-
-    res.json(commentsUnderPost);
+    const comments = await Comment.find();
+    res.json(comments);
   } catch (err) {
     return next(err);
     res.status(500).send("Server error");

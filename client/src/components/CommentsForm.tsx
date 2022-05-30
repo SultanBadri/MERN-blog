@@ -1,5 +1,6 @@
 import axios from "axios";
-import { useState } from "react";
+import React from "react";
+import { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface IComment {
@@ -11,10 +12,12 @@ interface IComment {
 
 interface IProps {
   postId: string;
+  comments: IComment[];
   setComments: React.Dispatch<React.SetStateAction<IComment[]>>;
 }
 
-function CommentsForm({ postId, setComments }: IProps) {
+function CommentsForm({ postId, comments, setComments }: IProps) {
+  const formRef = React.useRef() as React.MutableRefObject<HTMLFormElement>;
   const navigate = useNavigate();
   const [username, setUsername] = useState<string>();
   const [text, setText] = useState<string>();
@@ -22,27 +25,19 @@ function CommentsForm({ postId, setComments }: IProps) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     axios
-      .post(
-        `/api/posts/${postId}/comments`,
-        { username, text, postId },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `bearer ${
-              JSON.parse(localStorage.getItem("user")!).token
-            }`,
-          },
-        }
-      )
+      .post(`/api/posts/${postId}/comments`, { username, text, postId })
       .then((res) => {
-        setComments((prevState) => [res.data, ...prevState]);
-        navigate("/");
+        setComments([res.data, ...comments]);
+        axios.get(`/api/posts/${postId}/comments`).then((res) => {
+          setComments(res.data);
+        });
       })
       .catch((err) => console.log(err.response.data));
+    formRef.current?.reset();
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
+    <form ref={formRef} onSubmit={(e) => handleSubmit(e)}>
       <label htmlFor="username">Username</label>
       <br />
       <input
