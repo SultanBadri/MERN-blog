@@ -53,6 +53,7 @@ function CommentsForm({ user, postId, comments, setComments }: IProps) {
         defaultValue={
           user ? JSON.parse(localStorage.getItem("user")!).user.username : ""
         }
+        readOnly={user ? true : false}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setUsername(e.target.value)
         }

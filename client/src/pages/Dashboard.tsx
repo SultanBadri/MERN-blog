@@ -68,51 +68,54 @@ function Dashboard({ posts, setPosts }: IProps) {
     <div>
       <h1 className="text-3xl font-bold text-center m-8">Dashboard</h1>
       <div className="flex flex-row flex-wrap mx-8">
-        {userPosts.reverse().map((post: IPost) => {
-          return (
-            <div
-              className="border-2 m-6 p-4 rounded text-center hover:shadow-lg"
-              key={post._id}
-            >
-              <Link to={`/posts/${post._id}`}>
-                <img
-                  src={post.imageUrl}
-                  className="flex items-center justify-center w-80 h-48"
-                  alt="post background"
-                />
-              </Link>
-              <h2 className="text-1xl font-bold pt-2">{post.title}</h2>
-              <p className="text-sm py-2">
-                Published: {new Date(post.date).toLocaleString()}
-              </p>
-              <button
-                onClick={() => togglePublish(post)}
-                className="px-4 py-1 mt-2 rounded border text-sm border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
+        {userPosts
+          .slice(0)
+          .reverse()
+          .map((post: IPost) => {
+            return (
+              <div
+                className="border-2 m-6 p-4 rounded text-center hover:shadow-lg"
+                key={post._id}
               >
-                {post.published ? "Unpublish" : "Publish"}
-              </button>
-              <br />
-              <div className="m-auto">
+                <Link to={`/posts/${post._id}`}>
+                  <img
+                    src={post.imageUrl}
+                    className="flex items-center justify-center w-80 h-48"
+                    alt="post background"
+                  />
+                </Link>
+                <h2 className="text-1xl font-bold pt-2">{post.title}</h2>
+                <p className="text-sm py-2">
+                  Published: {new Date(post.date).toLocaleString()}
+                </p>
                 <button
-                  onClick={() =>
-                    navigate(`/posts/${post._id}/update`, {
-                      state: { ...post },
-                    })
-                  }
-                  className="px-2 py-1 mt-2 rounded border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
+                  onClick={() => togglePublish(post)}
+                  className="px-4 py-1 mt-2 rounded border text-sm border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
                 >
-                  <BiEdit />
+                  {post.published ? "Unpublish" : "Publish"}
                 </button>
-                <button
-                  onClick={() => handleDelete(post)}
-                  className="px-2 py-1 mt-2 rounded border border-red-600 text-red-600 duration-300 hover:text-white hover:bg-red-600"
-                >
-                  <RiDeleteBin6Line />
-                </button>
+                <br />
+                <div className="m-auto">
+                  <button
+                    onClick={() =>
+                      navigate(`/posts/${post._id}/update`, {
+                        state: { ...post },
+                      })
+                    }
+                    className="px-2 py-1 mt-2 rounded border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
+                  >
+                    <BiEdit />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(post)}
+                    className="px-2 py-1 mt-2 rounded border border-red-600 text-red-600 duration-300 hover:text-white hover:bg-red-600"
+                  >
+                    <RiDeleteBin6Line />
+                  </button>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </div>
   );
