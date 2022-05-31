@@ -22,7 +22,7 @@ router.post("/:post_id/unpublish", verifyToken, postController.unpublishPost);
 // PUT update post
 router.put("/:post_id/update", verifyToken, postController.updatePost);
 
-// DELETE delete post
+// DELETE post
 router.delete("/:post_id/delete", verifyToken, postController.deletePost);
 
 // GET all comments
@@ -41,7 +41,7 @@ router.put(
   commentController.updateComment
 );
 
-// DELETE delete comment
+// DELETE comment
 router.delete(
   "/:post_id/comments/:comment_id/delete",
   verifyToken,

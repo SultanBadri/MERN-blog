@@ -19,23 +19,18 @@ interface IProps {
 }
 
 function Comments({ user, postId, comments, setComments }: IProps) {
-  const headers = {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `bearer ${
-        JSON.parse(localStorage.getItem("user")!).token
-      }`,
-    },
-  };
-
   const handleUpdate = (updateComment: IComment): void => {};
 
   const handleDelete = (deleteComment: IComment): void => {
     axios
-      .delete(
-        `api/posts/${postId}/comments/${deleteComment._id}/delete`,
-        headers
-      )
+      .delete(`api/posts/${postId}/comments/${deleteComment._id}/delete`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `bearer ${
+            JSON.parse(localStorage.getItem("user")!).token
+          }`,
+        },
+      })
       .then(() => {
         setComments((prevState) => {
           return prevState.filter(
@@ -45,8 +40,6 @@ function Comments({ user, postId, comments, setComments }: IProps) {
       })
       .catch((err) => console.log(err.response.data));
   };
-
-  useEffect(() => {}, []);
 
   return (
     <>
@@ -68,7 +61,11 @@ function Comments({ user, postId, comments, setComments }: IProps) {
                 <div
                   className="m-auto"
                   hidden={
-                    user && user.username === comment.username ? false : true
+                    user &&
+                    JSON.parse(localStorage.getItem("user")!).user.username ===
+                      comment.username
+                      ? false
+                      : true
                   }
                 >
                   <button
