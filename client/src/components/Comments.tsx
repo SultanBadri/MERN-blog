@@ -1,6 +1,10 @@
+import axios from "axios";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { BiEdit } from "react-icons/bi";
 import { useEffect } from "react";
 
 interface IComment {
+  _id: string;
   username: string;
   text: string;
   postId: string;
@@ -8,10 +12,42 @@ interface IComment {
 }
 
 interface IProps {
+  user: any;
+  postId: string;
   comments: IComment[];
+  setComments: React.Dispatch<React.SetStateAction<IComment[]>>;
 }
 
-function Comments({ comments }: IProps) {
+function Comments({ user, postId, comments, setComments }: IProps) {
+  const headers = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${
+        JSON.parse(localStorage.getItem("user")!).token
+      }`,
+    },
+  };
+
+  const handleUpdate = (updateComment: IComment): void => {};
+
+  const handleDelete = (deleteComment: IComment): void => {
+    axios
+      .delete(
+        `api/posts/${postId}/comments/${deleteComment._id}/delete`,
+        headers
+      )
+      .then(() => {
+        setComments((prevState) => {
+          return prevState.filter(
+            (comment) => comment._id !== deleteComment._id
+          );
+        });
+      })
+      .catch((err) => console.log(err.response.data));
+  };
+
+  useEffect(() => {}, []);
+
   return (
     <>
       <div>
@@ -29,6 +65,25 @@ function Comments({ comments }: IProps) {
                   <p>{new Date(comment.date).toLocaleString()}</p>
                 </div>
                 <p>{comment.text}</p>
+                <div
+                  className="m-auto"
+                  hidden={
+                    user && user.username === comment.username ? false : true
+                  }
+                >
+                  <button
+                    onClick={() => handleUpdate(comment)}
+                    className="px-2 py-1 mt-2 rounded border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
+                  >
+                    <BiEdit />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(comment)}
+                    className="px-2 py-1 mt-2 rounded border border-red-600 text-red-600 duration-300 hover:text-white hover:bg-red-600"
+                  >
+                    <RiDeleteBin6Line />
+                  </button>
+                </div>
               </div>
             );
           })}

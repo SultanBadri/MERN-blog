@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 
 interface IComment {
+  _id: string;
   username: string;
   text: string;
   postId: string;

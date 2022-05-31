@@ -17,6 +17,7 @@ interface IProps {
 }
 
 interface IComment {
+  _id: string;
   username: string;
   text: string;
   postId: string;
@@ -71,7 +72,12 @@ function Post({
             comments={comments}
             setComments={setComments}
           />
-          <Comments comments={comments} />
+          <Comments
+            user={user}
+            postId={postId}
+            comments={comments}
+            setComments={setComments}
+          />
         </div>
       </div>
     </div>

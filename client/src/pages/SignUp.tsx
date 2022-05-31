@@ -8,10 +8,6 @@ function SignUp() {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
 
-  useEffect(() => {
-    document.title = "Sign up | MERN Blog";
-  }, []);
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     axios
@@ -25,6 +21,10 @@ function SignUp() {
       })
       .catch((err) => console.log(err));
   };
+
+  useEffect(() => {
+    document.title = "Sign up | MERN Blog";
+  }, []);
 
   return (
     <div className="bg-black-500 w-1/2 mt-24 absolute left-1/2 -translate-x-1/2">

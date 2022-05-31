@@ -11,10 +11,6 @@ function Login({ setUser }: IProps) {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  useEffect(() => {
-    document.title = "Login | MERN Blog";
-  }, []);
-
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     axios
@@ -35,6 +31,10 @@ function Login({ setUser }: IProps) {
         }
       });
   };
+
+  useEffect(() => {
+    document.title = "Login | MERN Blog";
+  }, []);
 
   return (
     <div className="bg-black-500 w-1/2 mt-24 absolute left-1/2 -translate-x-1/2">
