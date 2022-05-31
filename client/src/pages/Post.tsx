@@ -50,7 +50,7 @@ function Post({
 
   return (
     <div className="flex items-center justify-center bg-purple-100">
-      <div className="text-center h-screen w-3/4 x-10 bg-white">
+      <div className="text-center min-h-screen w-3/4 x-10 bg-white">
         <div className="my-8">
           <h1 className="text-4xl font-semibold">{title}</h1>
           <div className="text-sm">
