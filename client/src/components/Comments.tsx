@@ -1,7 +1,6 @@
 import axios from "axios";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiEdit } from "react-icons/bi";
-import { useEffect } from "react";
 
 interface IComment {
   _id: string;
@@ -23,7 +22,7 @@ function Comments({ user, postId, comments, setComments }: IProps) {
 
   const handleDelete = (deleteComment: IComment): void => {
     axios
-      .delete(`api/posts/${postId}/comments/${deleteComment._id}/delete`, {
+      .delete(`/api/posts/${postId}/comments/${deleteComment._id}/delete`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `bearer ${
