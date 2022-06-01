@@ -3,7 +3,7 @@
 ### [Live Demo](https://my-mern-blog1.herokuapp.com/)
 
 ## Description
-MERN-blog app with React.js, TypeScript, and Tailwind.
+MERN-stack blog app using React, TypeScript, and Tailwind, JWT authentication, and REST API.
 
 ## Getting started
 
