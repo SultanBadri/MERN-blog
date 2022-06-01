@@ -43,7 +43,7 @@ exports.getOneComment = async (req, res, next) => {
 exports.getAllPostComments = async (req, res, next) => {
   try {
     const comments = await Comment.find({ postId: req.params.post_id }).sort([
-      ["timestamp", "descending"],
+      ["timestamp", "ascending"],
     ]);
 
     if (!comments) {

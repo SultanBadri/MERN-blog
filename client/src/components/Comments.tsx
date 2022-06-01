@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiEdit } from "react-icons/bi";
@@ -21,6 +21,7 @@ interface IProps {
 function Comments({ user, postId, comments, setComments }: IProps) {
   const [text, setText] = useState<string>("");
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [editingCommentId, setEditingCommentId] = useState<string>("");
 
   const handleUpdate = (updateComment: IComment): void => {
     axios
@@ -47,8 +48,9 @@ function Comments({ user, postId, comments, setComments }: IProps) {
       .catch((err) => console.log(err.response.data));
   };
 
-  const cancelEdit = (): void => {
-    setIsEditing(false);
+  const startEditing = (comment: IComment): void => {
+    setIsEditing(true);
+    setEditingCommentId(comment._id);
   };
 
   const handleDelete = (deleteComment: IComment): void => {
@@ -71,6 +73,15 @@ function Comments({ user, postId, comments, setComments }: IProps) {
       .catch((err) => console.log(err.response.data));
   };
 
+  useEffect(() => {
+    axios
+      .get(`/api/posts/${postId}/comments`)
+      .then((res) => {
+        setComments(res.data);
+      })
+      .catch((err) => console.log(err.response.data));
+  }, [isEditing]);
+
   return (
     <>
       <div>
@@ -87,8 +98,18 @@ function Comments({ user, postId, comments, setComments }: IProps) {
                   <h3 className="font-semibold">{comment.username}</h3>
                   <p>{new Date(comment.date).toLocaleString()}</p>
                 </div>
-                <p hidden={isEditing ? true : false}>{comment.text}</p>
-                <div hidden={isEditing ? false : true}>
+                <p
+                  hidden={
+                    isEditing && comment._id === editingCommentId ? true : false
+                  }
+                >
+                  {comment.text}
+                </p>
+                <div
+                  hidden={
+                    isEditing && comment._id === editingCommentId ? false : true
+                  }
+                >
                   {/* Update text form */}
                   <form onSubmit={() => handleUpdate(comment)}>
                     <label htmlFor="text">Text</label>
@@ -106,10 +127,15 @@ function Comments({ user, postId, comments, setComments }: IProps) {
                     />
                   </form>
                 </div>
-                <div className="m-auto" hidden={isEditing ? false : true}>
+                <div
+                  className="m-auto"
+                  hidden={
+                    isEditing && comment._id === editingCommentId ? false : true
+                  }
+                >
                   <button
                     className="px-2 py-1 mt-2 rounded border border-red-600 text-red-600 duration-300 hover:text-white hover:bg-red-600"
-                    onClick={() => cancelEdit()}
+                    onClick={() => setIsEditing(false)}
                   >
                     Cancel
                   </button>
@@ -131,7 +157,7 @@ function Comments({ user, postId, comments, setComments }: IProps) {
                   }
                 >
                   <button
-                    onClick={() => setIsEditing(true)}
+                    onClick={() => startEditing(comment)}
                     hidden={isEditing ? true : false}
                     className="px-2 py-1 mt-2 rounded border border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600"
                   >
