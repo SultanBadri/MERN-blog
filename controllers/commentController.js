@@ -62,11 +62,10 @@ exports.getAllPostComments = async (req, res, next) => {
 
 exports.updateComment = async (req, res, next) => {
   try {
-    const { user, text } = req.body;
+    const { text } = req.body;
     const comment = await Comment.findByIdAndUpdate(req.params.comment_id, {
-      title,
       text,
-      date,
+      date: new Date(),
     });
 
     if (!comment) {

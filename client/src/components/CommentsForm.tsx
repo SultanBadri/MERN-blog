@@ -19,8 +19,8 @@ interface IProps {
 
 function CommentsForm({ user, postId, comments, setComments }: IProps) {
   const formRef = React.useRef() as React.MutableRefObject<HTMLFormElement>;
-  const [username, setUsername] = useState<string>();
-  const [text, setText] = useState<string>();
+  const [username, setUsername] = useState<string>("");
+  const [text, setText] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
