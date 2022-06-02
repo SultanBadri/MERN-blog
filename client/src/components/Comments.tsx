@@ -38,12 +38,12 @@ function Comments({ user, postId, comments, setComments }: IProps) {
         }
       )
       .then((res) => {
+        setIsEditing(false);
         setComments((prevState) => {
           return prevState.map((comment: IComment) =>
             updateComment._id === comment._id ? res.data : comment
           );
         });
-        setIsEditing(false);
       })
       .catch((err) => console.log(err.response.data));
   };

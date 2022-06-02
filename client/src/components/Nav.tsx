@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 interface IProps {
@@ -6,10 +7,15 @@ interface IProps {
 }
 
 function Nav({ user, setUser }: IProps) {
+  const [isVisibleHamburgerMenu, setIsVisibleHamburgerMenu] =
+    useState<boolean>(false);
+
   const handleLogout = (): void => {
     localStorage.removeItem("user");
     setUser(undefined);
   };
+
+  useEffect(() => {}, []);
 
   return (
     <div className="shadow-md py-6 px-12 flex justify-between items-center border-2 border-b-purple-600">
@@ -18,6 +24,10 @@ function Nav({ user, setUser }: IProps) {
           My Blog
         </h2>
       </Link>
+      {/* Hamburger menu  */}
+      {/* &#9776; */}
+      {/* X close button */}
+      {/* &times; */}
       <ul className="flex">
         <Link to="/login" hidden={user ? true : false}>
           <li className="px-2 mx-2 text-white bg-purple-600 rounded duration-200 hover:bg-purple-700">

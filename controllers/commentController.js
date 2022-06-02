@@ -23,27 +23,10 @@ exports.createComment = async (req, res, next) => {
   }
 };
 
-exports.getOneComment = async (req, res, next) => {
-  try {
-    const comment = await Comment.findById(req.params.comment_id);
-
-    if (!comment) {
-      return res.status(404).json({
-        errors: [{ message: `Comment ${req.params.comment_id} was not found` }],
-      });
-    }
-
-    res.json(comment);
-  } catch (err) {
-    return next(err);
-    res.status(500).send("Server error");
-  }
-};
-
 exports.getAllPostComments = async (req, res, next) => {
   try {
     const comments = await Comment.find({ postId: req.params.post_id }).sort([
-      ["timestamp", "ascending"],
+      ["timestamp", "descending"],
     ]);
 
     if (!comments) {
