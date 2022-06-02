@@ -28,8 +28,10 @@ function Home({ user, posts }: IProps) {
   return (
     <div>
       <div className="bg-gray-300 py-20 px-12">
-        <h1 className="text-5xl font-bold">Welcome to my blog!</h1>
-        <p className="pt-4 w-96 leading-6">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold">
+          Welcome to my blog!
+        </h1>
+        <p className="pt-4 w-60 sm:w-72 md:w-96 leading-6">
           Hi there! Welcome to my blog, where anyone can give their thoughts on
           full stack technologies along with other things!
         </p>
@@ -44,7 +46,7 @@ function Home({ user, posts }: IProps) {
         ) : null}
       </div>
       <h2 className="text-3xl mt-12 px-12 font-semibold">Blogs</h2>
-      <div className="flex items-start justify-start flex-wrap mx-8 ">
+      <div className="flex items-center justify-center flex-wrap mx-8 lg:justify-start lg:items-start">
         {publishedPosts
           .slice(0)
           .reverse()
@@ -54,7 +56,7 @@ function Home({ user, posts }: IProps) {
                 <div className="m-4 p-4 text-center border-2 rounded hover:shadow-lg">
                   <img
                     src={post.imageUrl}
-                    className="flex items-center justify-center w-80 h-48"
+                    className="flex items-center justify-center w-64 h-36 sm:w-80 sm:h-48"
                     alt="post background"
                   />
                   <h2 className="text-1xl font-bold pt-2">{post.title}</h2>

@@ -67,20 +67,20 @@ function Dashboard({ posts, setPosts }: IProps) {
   return (
     <div>
       <h1 className="text-3xl font-bold text-center m-8">Dashboard</h1>
-      <div className="flex flex-row flex-wrap mx-8">
+      <div className="flex flex-row flex-wrap justify-center items-center mx-8 lg:justify-start lg:items-start">
         {userPosts
           .slice(0)
           .reverse()
           .map((post: IPost) => {
             return (
               <div
-                className="border-2 m-6 p-4 rounded text-center hover:shadow-lg"
+                className="border-2 m-3 p-2 sm:m-6 sm:p-4 rounded text-center hover:shadow-lg"
                 key={post._id}
               >
                 <Link to={`/posts/${post._id}`}>
                   <img
                     src={post.imageUrl}
-                    className="flex items-center justify-center w-80 h-48"
+                    className="flex items-center justify-center w-64 h-36 sm:w-80 sm:h-48"
                     alt="post background"
                   />
                 </Link>

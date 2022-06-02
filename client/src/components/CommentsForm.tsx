@@ -76,7 +76,7 @@ function CommentsForm({ user, postId, comments, setComments }: IProps) {
       />
       <br />
       <div>
-        <button className="px-8 py-1 my-2 rounded border-2 border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600">
+        <button className="px-4 sm:px-8 py-1 my-2 rounded border-2 border-purple-600 text-purple-600 duration-300 hover:text-white hover:bg-purple-600">
           Comment
         </button>
       </div>

@@ -14,7 +14,9 @@ function Nav({ user, setUser }: IProps) {
   return (
     <div className="shadow-md py-6 px-12 flex justify-between items-center border-2 border-b-purple-600">
       <Link to="/">
-        <h2 className="text-3xl text-purple-600 font-semibold">My Blog</h2>
+        <h2 className="text-2xl sm:text-3xl text-purple-600 font-semibold">
+          My Blog
+        </h2>
       </Link>
       <ul className="flex">
         <Link to="/login" hidden={user ? true : false}>

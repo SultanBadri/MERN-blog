@@ -50,9 +50,9 @@ function Post({
 
   return (
     <div className="flex items-center justify-center bg-purple-100">
-      <div className="text-center min-h-screen w-3/4 x-10 bg-white">
+      <div className="text-center min-h-screen w-4/4 sm:w-3/4 x-10 bg-white">
         <div className="my-8">
-          <h1 className="text-4xl font-semibold">{title}</h1>
+          <h1 className="font-semibold text-3xl md:text-4xl">{title}</h1>
           <div className="text-sm">
             <p className="my-2">
               By <em className="text-slate-500">{author.username}</em>
@@ -60,8 +60,12 @@ function Post({
             <p>Published on {new Date(date).toLocaleString()}</p>
           </div>
         </div>
-        <img className="w-4/5 m-auto" src={imageUrl} alt="background" />
-        <p className="text-left mt-8 w-4/5 m-auto">{body}</p>
+        <img
+          className="w-10/12 m-auto sm:w-4/5"
+          src={imageUrl}
+          alt="background"
+        />
+        <p className="text-left mt-8 w-10/12 m-auto sm:w-4/5">{body}</p>
         <div className="my-8 w-4/5 m-auto text-left">
           <p className="border-b border-b-black mb-2 font-semibold">
             Comments ({comments ? comments.length : 0})
