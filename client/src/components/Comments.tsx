@@ -95,8 +95,12 @@ function Comments({ user, postId, comments, setComments }: IProps) {
                 className="p-2 my-4 border rounded shadow-sm hover:shadow-lg"
               >
                 <div className="flex justify-between">
-                  <h3 className="font-semibold">{comment.username}</h3>
-                  <p>{new Date(comment.date).toLocaleString()}</p>
+                  <h3 className="text-sm sm:text-md font-semibold">
+                    {comment.username}
+                  </h3>
+                  <p className="text-xs sm:text-md">
+                    {new Date(comment.date).toLocaleString()}
+                  </p>
                 </div>
                 <p
                   hidden={

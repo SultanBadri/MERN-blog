@@ -40,7 +40,7 @@ function Nav({ user, setUser }: IProps) {
           }`}
         >
           <Link to="/login" hidden={user ? true : false}>
-            <li className="py-8 px-2 hover:text-purple-600">Log in</li>
+            <li className="my-4 px-2 hover:text-purple-600">Log in</li>
           </Link>
           <Link to="/signup" hidden={user ? true : false}>
             <li className="my-4 px-2 hover:text-purple-600">Sign up</li>
