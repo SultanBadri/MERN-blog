@@ -70,7 +70,7 @@ function PostForm({ posts, setPosts }: IProps) {
 
   return (
     <>
-      <div className="bg-black-500 w-4/5 md:w-1/2 mt-24 absolute left-1/2 -translate-x-1/2">
+      <div className="z-[-10] bg-black-500 w-4/5 md:w-1/2 mt-24 absolute left-1/2 -translate-x-1/2">
         <div className="border-2 p-10 shadow-xl rounded-md">
           <h1 className="text-purple-600 text-xl sm:text-2xl md:text-3xl font-bold pb-4">
             Write your own blog

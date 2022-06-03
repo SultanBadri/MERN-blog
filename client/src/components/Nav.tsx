@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 interface IProps {
@@ -7,7 +7,7 @@ interface IProps {
 }
 
 function Nav({ user, setUser }: IProps) {
-  const [isVisibleHamburgerMenu, setIsVisibleHamburgerMenu] =
+  const [isOpenHamburgerMenu, setIsOpenHamburgerMenu] =
     useState<boolean>(false);
 
   const handleLogout = (): void => {
@@ -15,45 +15,55 @@ function Nav({ user, setUser }: IProps) {
     setUser(undefined);
   };
 
-  useEffect(() => {}, []);
-
   return (
-    <div className="shadow-md py-6 px-12 flex justify-between items-center border-2 border-b-purple-600">
-      <Link to="/">
-        <h2 className="text-2xl sm:text-3xl text-purple-600 font-semibold">
-          My Blog
-        </h2>
-      </Link>
-      {/* Hamburger menu  */}
-      {/* &#9776; */}
-      {/* X close button */}
-      {/* &times; */}
-      <ul className="flex">
-        <Link to="/login" hidden={user ? true : false}>
-          <li className="px-2 mx-2 text-white bg-purple-600 rounded duration-200 hover:bg-purple-700">
-            Log in
-          </li>
+    <div className="shadow-sm w-full sticky top-0 left-0">
+      <div className="sm:flex items-center justify-between bg-white py-4 sm:px-10 px-7 border-2 border-b-purple-600">
+        {/* Title and link to home page */}
+        <Link to="/">
+          <h2 className="text-2xl sm:text-3xl text-purple-600 font-semibold">
+            My Blog
+          </h2>
         </Link>
-        <Link to="/signup" hidden={user ? true : false}>
-          <li className="px-2 hover:text-purple-600">Sign up</li>
-        </Link>
-        <Link to="/" hidden={user ? false : true}>
-          <li className="px-2 mx-2 text-white bg-purple-600 rounded duration-200 hover:bg-purple-700">
-            Home
-          </li>
-        </Link>
-        <Link to="/dashboard" hidden={user ? false : true}>
-          <li className="px-2 hover:text-purple-600">Dashboard</li>
-        </Link>
-        <Link to="/create" hidden={user ? false : true}>
-          <li className="px-2 hover:text-purple-600">Create</li>
-        </Link>
-        <Link to="/" hidden={user ? false : true}>
-          <li onClick={handleLogout} className="px-2 hover:text-purple-600">
-            Log out
-          </li>
-        </Link>
-      </ul>
+
+        {/* Hamburger menu  */}
+        <span
+          className="z-50 absolute top-5 right-8 sm:hidden text-2xl cursor-pointer"
+          onClick={() => setIsOpenHamburgerMenu(!isOpenHamburgerMenu)}
+        >
+          &#9776;
+        </span>
+
+        {/* Links  */}
+        <ul
+          className={`border-2 border-b-purple-600 sm:border-0 sm:flex sm:items-center sm:pb-0 pb-2 absolute sm:static bg-white sm:z-auto z-[-1] left-0 w-full sm:w-auto sm:pl-0 pl-9 transition-all duration-300 ease-in ${
+            isOpenHamburgerMenu ? "top-[60px] " : "top-[-200px]"
+          }`}
+        >
+          <Link to="/login" hidden={user ? true : false}>
+            <li className="py-8 px-2 hover:text-purple-600">Log in</li>
+          </Link>
+          <Link to="/signup" hidden={user ? true : false}>
+            <li className="my-4 px-2 hover:text-purple-600">Sign up</li>
+          </Link>
+          <Link to="/" hidden={user ? false : true}>
+            <li className="my-4 px-2 hover:text-purple-600">Home</li>
+          </Link>
+          <Link to="/dashboard" hidden={user ? false : true}>
+            <li className="my-4 px-2 hover:text-purple-600">Dashboard</li>
+          </Link>
+          <Link to="/create" hidden={user ? false : true}>
+            <li className="my-4 px-2 hover:text-purple-600">Create</li>
+          </Link>
+          <Link to="/" hidden={user ? false : true}>
+            <li
+              onClick={handleLogout}
+              className="my-4 px-2 hover:text-purple-600"
+            >
+              Log out
+            </li>
+          </Link>
+        </ul>
+      </div>
     </div>
   );
 }
